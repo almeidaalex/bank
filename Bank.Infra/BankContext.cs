@@ -1,10 +1,10 @@
 ﻿using Bank.Domain;
 using Bank.Domain.SeedWork;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,10 +12,12 @@ namespace Bank.Infra
 {
     public class BankDbContext: DbContext
     {
-        public BankDbContext(DbContextOptions<BankDbContext> options)
+        private readonly IMediator _mediator;
+
+        public BankDbContext(DbContextOptions<BankDbContext> options, IMediator mediator)
             :base(options)
         {
-
+            _mediator = mediator;
         }
 
         public DbSet<Account> Accounts { get; private set; }
@@ -23,6 +25,8 @@ namespace Bank.Infra
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>().HasKey(a => a.No);
+            modelBuilder.Entity<AccountHistory>().HasKey(a => a.Id);
+            modelBuilder.Entity<AccountHistory>().Property(a => a.Id).ValueGeneratedOnAdd();
 
             base.OnModelCreating(modelBuilder);
         }
@@ -34,13 +38,21 @@ namespace Bank.Infra
                 .Where(po => po.Events.Any())
                 .ToArray();
 
-            //foreach (var entity in entities)
-            //{
-            //    entity.Events
-            //}
+            var domainEvents = entities.SelectMany(e => e.Events).ToArray();
 
+            CleanEvents(entities);
+
+            foreach (var @event in domainEvents)            
+                _mediator.Publish(@event, cancellationToken);           
+            
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
             
+        }
+
+        private static void CleanEvents(IEnumerable<IEntity> entities)
+        {
+            foreach (var entity in entities)            
+                entity.ClearEvents();            
         }
     }
 }

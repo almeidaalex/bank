@@ -1,20 +1,15 @@
-﻿using System;
+﻿using Bank.Domain.SeedWork;
 
-namespace Bank.Domain.SeedWork
+namespace Bank.Domain.Events
 {
-    public class WithdrawnAmountEvent : IDomainEvent
+    public sealed class WithdrawnAmountEvent : AccountEvent
     {
-        private readonly decimal _amount;
-
-        public WithdrawnAmountEvent(decimal amount)
+        public WithdrawnAmountEvent(IAccount account, decimal amount)
+            :base(account, EventType.Withdraw, amount)
         {
-            this._amount = amount;
+           
         }
-
-        public EventType What => EventType.Withdraw;
-
-        public decimal Amount => _amount;
-
-        public DateTime When => DateTime.Now;
+        public override string ToString() =>
+            $"Saque realizado no valor de {Amount:c2}";
     }
 }

@@ -1,11 +1,10 @@
 ﻿using System;
+using MediatR;
 
 namespace Bank.Domain.SeedWork
 {
-    public interface IDomainEvent
+    public interface IDomainEvent : INotification
     {
-        EventType What { get; }
-        decimal Amount { get; }
-        DateTime When { get; }
+       
     }
 }

@@ -6,6 +6,8 @@
 
         Owner Owner { get; }
 
-        Result Withdraw(decimal amount); 
+        Result Withdraw(decimal amount);
+
+        void AddHistory(AccountHistory accountHistory);
     }
 }

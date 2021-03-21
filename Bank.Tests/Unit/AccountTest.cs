@@ -1,11 +1,9 @@
 ﻿using Bank.Domain;
+using Bank.Domain.Events;
 using Bank.Domain.SeedWork;
 using FluentAssertions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Bank.Tests.Unit
@@ -59,23 +57,40 @@ namespace Bank.Tests.Unit
             var account = new Account(1);
             account.Deposit(amount);
             account.Events
-                .Should()
-                .AllBeAssignableTo<DepositedAmountEvent>()
-                .And
-                .OnlyHaveUniqueItems(e => e.Amount == amount);
+                .OfType<DepositedAmountEvent>()
+                .Should().ContainSingle(e => e.Amount == amount);
         }
 
         [Fact]
         public void Should_add_event_domain_withdrawn_when_withdraw_is_called()
         {
             var amount = 200.14m;            
-            var account = new Account(1);
+            var account = new Account(1, 8000);
             account.Withdraw(amount);
             account.Events
-                .Should()
-                .AllBeAssignableTo<WithdrawnAmountEvent>()
-                .And
-                .OnlyHaveUniqueItems(e => e.Amount == amount);
+                .OfType<WithdrawnAmountEvent>()
+                .Should().ContainSingle(e => e.Amount == amount);
+        }
+
+        [Fact]
+        public void Should_not_add_event_domain_withdrawn_when_withdraw_fail()
+        {
+            var amount = 200.14m;
+            var account = new Account(1, 100);
+            account.Withdraw(amount);
+            account.Events.Should().BeEmpty();
+        }
+
+        [Fact]
+        public void Should_add_event_domain_charged_when_charge_payment_is_called()
+        {   
+            var account = new Account(1, 1000);
+            var invoice = new Invoice(34566, new DateTime(), 500);
+            account.ChargePayment(invoice);
+            account.Events
+                .OfType<ChargedPaymentEvent>()
+                .Should().ContainSingle(e => e.Amount == 500);
+              
         }
     }
 }

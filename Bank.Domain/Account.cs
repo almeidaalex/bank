@@ -1,11 +1,10 @@
-﻿using Bank.Domain.SeedWork;
+﻿using System.Collections.Generic;
+using Bank.Domain.Events;
 using Bank.Domain.SeedWork;
-using Bank.Domain.SeedWork;
-using System.Collections.Generic;
 
 namespace Bank.Domain
 {
-    public class Account : Entity, IAccount, IPaybleAccount
+    public sealed class Account : Entity, IAccount, IPaybleAccount
     {
         public Account(int accountNo, decimal initialBalance)
             :this(accountNo)
@@ -18,10 +17,10 @@ namespace Bank.Domain
         {            
             No = accountNo;
         }
-        protected Account()
+        private Account()
             :base()
         {
-            
+            History = new List<AccountHistory>();
         }
 
         public Owner Owner { get; }
@@ -70,9 +69,9 @@ namespace Bank.Domain
             if (result.Success)
             {
                 this.Balance -= amount;
+                this.AddDomainEvent(new WithdrawnAmountEvent(this, amount));
                 return Result.Ok();
-            }
-            this.AddDomainEvent(new WithdrawnAmountEvent(amount));
+            }            
             return result;
         }      
 
@@ -82,6 +81,14 @@ namespace Bank.Domain
         public void ChargePayment(Invoice invoice)
         {   
             this.Balance -= invoice.Amount;
+            this.AddDomainEvent(new ChargedPaymentEvent(invoice, this));
         }
+
+        public void AddHistory(AccountHistory accountHistory)
+        {
+            this.History.Add(accountHistory);
+        }
+
+        public List<AccountHistory> History { get; set; }
     }
 }
