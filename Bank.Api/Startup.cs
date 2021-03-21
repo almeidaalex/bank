@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
+using Bank.Domain.Contracts;
+using Bank.Domain;
 
 namespace Bank.Api
 {
@@ -36,6 +38,7 @@ namespace Bank.Api
             });
             services.AddDbContext<BankDbContext>(options => options.UseInMemoryDatabase("BankDb"));
             services.AddMediatR(typeof(WithdrawCommand));
+            services.AddSingleton<IPaymentService, PaymentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

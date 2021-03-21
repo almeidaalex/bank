@@ -70,7 +70,7 @@ namespace Bank.Domain
     public class Result<T> : Result
     {
         private T _value;
-        public T Value { get => _value; }
+        public T Value => _value;
         
 
     protected internal Result([AllowNull] T value, bool success, string error)

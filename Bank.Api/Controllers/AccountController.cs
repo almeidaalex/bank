@@ -48,6 +48,18 @@ namespace Bank.Api.Controllers
                 ? Ok(result)
                 : BadRequest(result.Error);
         }
+
+        [Route("payment")]
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Payment([FromBody] PaymentViewModel model)
+        {            
+            var result = await _mediator.Send(new PaymentCommand(model.AccountNo, model.Invoice));
+            return result.Success
+                ? Ok(result)
+                : BadRequest(result.Error);
+        }
     }
 
    
