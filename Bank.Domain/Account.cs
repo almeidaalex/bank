@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Bank.Domain
 {
-    public class Account : IAccount, IEntity
+    public class Account : IAccount, IEntity, IPaybleAccount
     {
         private readonly HashSet<IDomainEvent> _events;
 
@@ -57,7 +57,7 @@ namespace Bank.Domain
             if (amount <= 0)
                 return Result.Fail($"Não é permitido depósito igual ou menor que zero, valor informado '{amount:n2}'");
             this.Balance += amount;
-            this.AddDomainEvent(new DepositedAmount(amount, this));
+            this.AddDomainEvent(new DepositedAmountEvent(amount, this));
             return Result.Ok();
         }
 
@@ -74,7 +74,7 @@ namespace Bank.Domain
                 this.Balance -= amount;
                 return Result.Ok();
             }
-            this.AddDomainEvent(new WithdrawnAmount(amount));
+            this.AddDomainEvent(new WithdrawnAmountEvent(amount));
             return result;
         }
 
@@ -82,7 +82,14 @@ namespace Bank.Domain
             _events.Add(domainEvent);
 
         public void ClearEvents() =>
-            _events.Clear();            
-        
+            _events.Clear();
+
+        public bool CanCharge(Invoice invoice) =>
+            IsValidOperation(invoice.Amount).Success;          
+
+        public void ChargePayment(Invoice invoice)
+        {   
+            this.Balance -= invoice.Amount;
+        }
     }
 }

@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Bank.Api
 {
-    public class WithdrawCommand : IRequest<Result<Account>>
+    public sealed class WithdrawCommand : IRequest<Result<Account>>
     {
         public WithdrawCommand(decimal amount, int accountNo)
         {

@@ -60,7 +60,7 @@ namespace Bank.Tests.Unit
             account.Deposit(amount);
             account.Events
                 .Should()
-                .AllBeAssignableTo<DepositedAmount>()
+                .AllBeAssignableTo<DepositedAmountEvent>()
                 .And
                 .OnlyHaveUniqueItems(e => e.Amount == amount);
         }
@@ -68,11 +68,14 @@ namespace Bank.Tests.Unit
         [Fact]
         public void Should_add_event_domain_withdrawn_when_withdraw_is_called()
         {
-            var amount = 200.14m;
-            var expected = new WithdrawnAmount(amount);
+            var amount = 200.14m;            
             var account = new Account(1);
             account.Withdraw(amount);
-            account.Events.Should().ContainEquivalentOf(expected);
+            account.Events
+                .Should()
+                .AllBeAssignableTo<WithdrawnAmountEvent>()
+                .And
+                .OnlyHaveUniqueItems(e => e.Amount == amount);
         }
     }
 }

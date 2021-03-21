@@ -1,4 +1,5 @@
-﻿using Bank.Api.ViewModels;
+﻿using Bank.Api.Commands;
+using Bank.Api.ViewModels;
 using Bank.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -34,6 +35,18 @@ namespace Bank.Api.Controllers
                 ? Ok(result)
                 : BadRequest(result.Error);
                 
+        }
+
+        [Route("deposit")]
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Deposit([FromBody] DepositViewModel model)
+        {
+            var result = await _mediator.Send(new DepositCommand(model.Amount, model.AccountNo));
+            return result.Success
+                ? Ok(result)
+                : BadRequest(result.Error);
         }
     }
 
