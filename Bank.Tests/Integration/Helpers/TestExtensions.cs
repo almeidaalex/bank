@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json;
-using Bank.Domain.Contracts;
+using Bank.Domain.SeedWork;
 using Bank.Infra;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;

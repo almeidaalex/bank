@@ -1,7 +1,7 @@
-﻿using Bank.Domain.Contracts;
+﻿using Bank.Domain.SeedWork;
 using System;
 
-namespace Bank.Domain.Events
+namespace Bank.Domain.SeedWork
 {
     public class DepositedAmountEvent : IDomainEvent
     {

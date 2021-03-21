@@ -1,5 +1,5 @@
 ﻿using Bank.Domain;
-using Bank.Domain.Events;
+using Bank.Domain.SeedWork;
 using FluentAssertions;
 using System;
 using System.Collections.Generic;

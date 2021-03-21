@@ -1,4 +1,4 @@
-﻿namespace Bank.Domain.Events
+﻿namespace Bank.Domain.SeedWork
 {
     public enum EventType : short
     {

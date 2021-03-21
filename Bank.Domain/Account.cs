@@ -1,13 +1,12 @@
-﻿using Bank.Domain.Contracts;
-using Bank.Domain.Events;
+﻿using Bank.Domain.SeedWork;
+using Bank.Domain.SeedWork;
+using Bank.Domain.SeedWork;
 using System.Collections.Generic;
 
 namespace Bank.Domain
 {
-    public class Account : IAccount, IEntity, IPaybleAccount
+    public class Account : Entity, IAccount, IPaybleAccount
     {
-        private readonly HashSet<IDomainEvent> _events;
-
         public Account(int accountNo, decimal initialBalance)
             :this(accountNo)
         {
@@ -20,11 +19,10 @@ namespace Bank.Domain
             No = accountNo;
         }
         protected Account()
+            :base()
         {
-            _events = new HashSet<IDomainEvent>();
+            
         }
-
-        public IReadOnlyCollection<IDomainEvent> Events => _events;
 
         public Owner Owner { get; }
 
@@ -76,13 +74,7 @@ namespace Bank.Domain
             }
             this.AddDomainEvent(new WithdrawnAmountEvent(amount));
             return result;
-        }
-
-        public void AddDomainEvent(IDomainEvent domainEvent) =>        
-            _events.Add(domainEvent);
-
-        public void ClearEvents() =>
-            _events.Clear();
+        }      
 
         public bool CanCharge(Invoice invoice) =>
             IsValidOperation(invoice.Amount).Success;          

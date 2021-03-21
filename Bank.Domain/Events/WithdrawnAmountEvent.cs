@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bank.Domain.Events
+namespace Bank.Domain.SeedWork
 {
     public class WithdrawnAmountEvent : IDomainEvent
     {

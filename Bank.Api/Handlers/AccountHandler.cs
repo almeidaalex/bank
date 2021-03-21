@@ -1,6 +1,6 @@
 ﻿using Bank.Api.Commands;
 using Bank.Domain;
-using Bank.Domain.Contracts;
+using Bank.Domain.SeedWork;
 using Bank.Infra;
 using MediatR;
 using System.Threading;

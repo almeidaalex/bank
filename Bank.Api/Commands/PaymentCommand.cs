@@ -1,5 +1,5 @@
 ﻿using Bank.Domain;
-using Bank.Domain.Contracts;
+using Bank.Domain.SeedWork;
 using MediatR;
 
 namespace Bank.Api.Commands

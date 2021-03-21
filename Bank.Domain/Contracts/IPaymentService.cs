@@ -1,4 +1,4 @@
-﻿namespace Bank.Domain.Contracts
+﻿namespace Bank.Domain.SeedWork
 {
     public interface IPaymentService
     {

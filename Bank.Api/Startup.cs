@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
-using Bank.Domain.Contracts;
+using Bank.Domain.SeedWork;
 using Bank.Domain;
 
 namespace Bank.Api

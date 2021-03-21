@@ -1,4 +1,4 @@
-﻿using Bank.Domain.Contracts;
+﻿using Bank.Domain.SeedWork;
 
 namespace Bank.Domain
 {
