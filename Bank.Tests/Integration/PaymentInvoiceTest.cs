@@ -6,6 +6,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using Bank.Api;
+using Bank.Api.Commands;
 using Bank.Api.DTOs;
 using Bank.Api.ViewModels;
 using Bank.Domain;
@@ -36,8 +37,8 @@ namespace Bank.Tests.Integration
                 Amount = 500
             };
 
-            var model = new PaymentViewModel { AccountNo = 3, Invoice = invoice };
-            var content = new StringContent(model.AsJson(), Encoding.UTF8, "application/json");
+            var command = new PaymentCommand { AccountNo = 3, Invoice = invoice };
+            var content = new StringContent(command.AsJson(), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("api/account/payment", content);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -52,8 +53,8 @@ namespace Bank.Tests.Integration
                 Amount = 600
             };
 
-            var model = new PaymentViewModel { AccountNo = 3, Invoice = invoice };
-            var content = new StringContent(model.AsJson(), Encoding.UTF8, "application/json");
+            var command = new PaymentCommand { AccountNo = 3, Invoice = invoice };
+            var content = new StringContent(command.AsJson(), Encoding.UTF8, "application/json");
             await _httpClient.PostAsync("api/account/payment", content);
             
             var response = await _httpClient.GetAsync("api/account/3/statement");

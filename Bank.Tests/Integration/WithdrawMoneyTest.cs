@@ -28,8 +28,8 @@ namespace Bank.Tests.Integration
         [Fact]
         public async Task Should_withdrawn_money_succesfully()
         {
-            var model = new WithdrawViewModel { AccountNo = 1, Amount = 599 };
-            var content = new StringContent(model.AsJson(), Encoding.UTF8, "application/json" );
+            var command = new WithdrawCommand { AccountNo = 1, Amount = 599 };
+            var content = new StringContent(command.AsJson(), Encoding.UTF8, "application/json" );
             var response = await _httpClient.PostAsync("api/account/withdraw", content);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -40,8 +40,8 @@ namespace Bank.Tests.Integration
         [InlineData(0)]
         public async Task Should_return_error_for_invalid_amounts(decimal amount)
         {
-            var model = new WithdrawViewModel { AccountNo = 2, Amount = amount };
-            var content = new StringContent(model.AsJson(), Encoding.UTF8, "application/json");
+            var command = new WithdrawCommand { AccountNo = 2, Amount = amount };
+            var content = new StringContent(command.AsJson(), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("api/account/withdraw", content);
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -50,8 +50,8 @@ namespace Bank.Tests.Integration
         [Fact]
         public async Task Should_add_account_history_after_succesfull_withdraw()
         {
-            var model = new WithdrawViewModel { AccountNo = 1, Amount = 599 };
-            var content = new StringContent(model.AsJson(), Encoding.UTF8, "application/json");
+            var command = new WithdrawCommand { AccountNo = 1, Amount = 599 };
+            var content = new StringContent(command.AsJson(), Encoding.UTF8, "application/json");
             await _httpClient.PostAsync("api/account/withdraw", content);
             var response = await _httpClient.GetAsync("api/account/1/statement");
             response.StatusCode.Should().Be(HttpStatusCode.OK);

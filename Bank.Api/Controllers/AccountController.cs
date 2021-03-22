@@ -33,9 +33,9 @@ namespace Bank.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]        
-        public async Task<IActionResult> Withdraw([FromBody] WithdrawViewModel model)
+        public async Task<IActionResult> Withdraw([FromBody] WithdrawCommand command)
         {
-            var result = await _mediator.Send(new WithdrawCommand(model.Amount, model.AccountNo));
+            var result = await _mediator.Send(command);
             return result.Success
                 ? Ok(result)
                 : BadRequest(result.Error);
@@ -46,9 +46,9 @@ namespace Bank.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Deposit([FromBody] DepositViewModel model)
+        public async Task<IActionResult> Deposit([FromBody] DepositCommand command)
         {
-            var result = await _mediator.Send(new DepositCommand(model.Amount, model.AccountNo));
+            var result = await _mediator.Send(command);
             return result.Success
                 ? Ok(result)
                 : BadRequest(result.Error);
@@ -58,9 +58,9 @@ namespace Bank.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Payment([FromBody] PaymentViewModel model)
+        public async Task<IActionResult> Payment([FromBody] PaymentCommand command)
         {            
-            var result = await _mediator.Send(new PaymentCommand(model.AccountNo, model.Invoice));
+            var result = await _mediator.Send(command);
             return result.Success
                 ? Ok(result)
                 : BadRequest(result.Error);

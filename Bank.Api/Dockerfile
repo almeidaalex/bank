@@ -6,10 +6,12 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["../Bank.Api/Bank.Api.csproj", "../Bank.Api/"]
-RUN dotnet restore "../Bank.Api/Bank.Api.csproj"
+COPY ["Bank.Api/Bank.Api.csproj", "Bank.Api/"]
+COPY ["Bank.Domain/Bank.Domain.csproj", "Bank.Domain/"]
+COPY ["Bank.Infra/Bank.Infra.csproj", "Bank.Infra/"]
+RUN dotnet restore "Bank.Api/Bank.Api.csproj"
 COPY . .
-WORKDIR "/src/../Bank.Api"
+WORKDIR "/src/Bank.Api"
 RUN dotnet build "Bank.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish

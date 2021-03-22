@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Bank.Api;
+using Bank.Api.Commands;
 using Bank.Api.ViewModels;
 using Bank.Domain;
 using Bank.Tests.Integration.Helpers;
@@ -23,8 +24,8 @@ namespace Bank.Tests.Integration
         [Fact]
         public async Task Should_be_possible_to_deposit_amount_on_account()
         {
-            var model = new DepositViewModel { AccountNo = 2, Amount = 100 };
-            var content = new StringContent(model.AsJson(), Encoding.UTF8, "application/json");
+            var command = new DepositCommand { AccountNo = 2, Amount = 100 };
+            var content = new StringContent(command.AsJson(), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("api/account/deposit", content);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
