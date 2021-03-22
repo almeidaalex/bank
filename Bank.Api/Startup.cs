@@ -16,6 +16,7 @@ using MediatR;
 using Bank.Domain.SeedWork;
 using Bank.Domain;
 using Bank.Api.Handlers;
+using Bank.Domain.Events;
 
 namespace Bank.Api
 {
@@ -40,7 +41,7 @@ namespace Bank.Api
             services.AddDbContext<BankDbContext>(options => options.UseInMemoryDatabase("BankDb"));
             services.AddMediatR(typeof(Startup));
             services.AddSingleton<IPaymentService, PaymentService>();
-            services.AddTransient(typeof(INotificationHandler<>), typeof(AccountEventsHandler<>));
+            services.AddTransient(typeof(INotificationHandler<AccountEvent>), typeof(AccountEventsHandler<AccountEvent>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

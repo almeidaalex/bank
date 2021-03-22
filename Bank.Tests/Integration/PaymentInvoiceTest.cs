@@ -20,7 +20,8 @@ namespace Bank.Tests.Integration
 
         public PaymentInvoiceTest(ApplicationFactoryMemoryDb<Startup> factory)
         {
-            _httpClient = factory.AddSeedData(new Account(accountNo: 3, initialBalance: 1000)).CreateClient();
+            var owner = new Owner("Alex A.");
+            _httpClient = factory.AddSeedData(new Account(owner, accountNo: 3, initialBalance: 1000)).CreateClient();
         }
 
         [Fact]

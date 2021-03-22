@@ -24,9 +24,22 @@ namespace Bank.Infra
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Account>().HasKey(a => a.No);
-            modelBuilder.Entity<AccountHistory>().HasKey(a => a.Id);
-            modelBuilder.Entity<AccountHistory>().Property(a => a.Id).ValueGeneratedOnAdd();
+            var owner = modelBuilder.Entity<Owner>();
+            owner.HasKey(o => o.Id);            
+
+            var account = modelBuilder.Entity<Account>();
+            account.HasKey(a => a.No);
+            account.HasMany(a => a.History)
+                   .WithOne()
+                   .HasForeignKey(h => h.AccountNo);
+
+            account.HasOne(a => a.Owner)
+                   .WithMany()
+                   .HasForeignKey(a => a.OwnerId);
+
+            var history = modelBuilder.Entity<AccountHistory>();
+            history.HasKey(a => a.Id);
+            history.Property(a => a.Id).ValueGeneratedOnAdd();
 
             base.OnModelCreating(modelBuilder);
         }
@@ -42,11 +55,10 @@ namespace Bank.Infra
 
             CleanEvents(entities);
 
-            foreach (var @event in domainEvents)            
-                _mediator.Publish(@event, cancellationToken);           
-            
+            foreach (var @event in domainEvents)
+                _mediator.Publish(@event, cancellationToken);
+
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-            
         }
 
         private static void CleanEvents(IEnumerable<IEntity> entities)
@@ -54,5 +66,7 @@ namespace Bank.Infra
             foreach (var entity in entities)            
                 entity.ClearEvents();            
         }
+
+        
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +16,8 @@ namespace Bank.Tests.Integration
         private readonly HttpClient _httpClient;
         public DepositMoneyTest(ApplicationFactoryMemoryDb<Startup> factory)
         {
-            _httpClient = factory.AddSeedData(new Account(accountNo: 2, initialBalance: 1000)).CreateClient();
+            var owner = new Owner("Alex A.");
+            _httpClient = factory.AddSeedData(new Account(owner, accountNo: 2, initialBalance: 1000)).CreateClient();
         }
 
         [Fact]

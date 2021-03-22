@@ -10,6 +10,12 @@ namespace Bank.Tests.Unit
 {
     public class AccountTest
     {
+        private readonly Owner _owner;
+        public AccountTest()
+        {
+            _owner = new Owner("Alex A.");
+        }
+        
         [Fact]
         public void Should_be_possible_to_deposit_money_on_banking_account()
         {
@@ -44,7 +50,7 @@ namespace Bank.Tests.Unit
         [Fact]
         public void Should_be_possible_to_withdraw_money_from_banking_account()
         {
-            var account = new Account(1, 200);            
+            var account = new Account(_owner, 1, 200);            
             account.Withdraw(50.0m);
 
             account.Balance.Should().Be(150.00m);
@@ -65,7 +71,7 @@ namespace Bank.Tests.Unit
         public void Should_add_event_domain_withdrawn_when_withdraw_is_called()
         {
             var amount = 200.14m;            
-            var account = new Account(1, 8000);
+            var account = new Account(_owner, 1, 8000);
             account.Withdraw(amount);
             account.Events
                 .OfType<WithdrawnAmountEvent>()
@@ -76,7 +82,7 @@ namespace Bank.Tests.Unit
         public void Should_not_add_event_domain_withdrawn_when_withdraw_fail()
         {
             var amount = 200.14m;
-            var account = new Account(1, 100);
+            var account = new Account(_owner, 1, 100);
             account.Withdraw(amount);
             account.Events.Should().BeEmpty();
         }
@@ -84,7 +90,7 @@ namespace Bank.Tests.Unit
         [Fact]
         public void Should_add_event_domain_charged_when_charge_payment_is_called()
         {   
-            var account = new Account(1, 1000);
+            var account = new Account(_owner, 1, 1000);
             var invoice = new Invoice(34566, new DateTime(), 500);
             account.ChargePayment(invoice);
             account.Events

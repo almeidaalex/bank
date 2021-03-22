@@ -4,6 +4,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using Bank.Api;
+using Bank.Api.DTOs;
 using Bank.Api.ViewModels;
 using Bank.Domain;
 using Bank.Tests.Integration.Helpers;
@@ -16,8 +17,10 @@ namespace Bank.Tests.Integration
     {   
         private readonly HttpClient _httpClient;
         public WithdrawMoneyTest(ApplicationFactoryMemoryDb<Startup> factory)
-        {     
-            _httpClient = factory.AddSeedData(new Account(accountNo: 1, initialBalance: 1000)).CreateClient();
+        {
+            var owner = new Owner("Alex A.");
+            var account = new Account(owner, accountNo: 1, initialBalance: 10000);            
+            _httpClient = factory.AddSeedData(account).CreateClient();
         }
 
 
@@ -42,6 +45,19 @@ namespace Bank.Tests.Integration
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
-       
+
+        [Fact]
+        public async Task Should_add_account_history_after_succesfull_withdraw()
+        {
+            var model = new WithdrawViewModel { AccountNo = 1, Amount = 599 };
+            var content = new StringContent(model.AsJson(), Encoding.UTF8, "application/json");
+            await _httpClient.PostAsync("api/account/withdraw", content);
+            var response = await _httpClient.GetAsync("api/account/1/statement");
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var account = await response.Content.ReadFromJsonAsync<AccountDto>();
+
+            account.Statements.Should().HaveCount(1);
+        }
     }
 }

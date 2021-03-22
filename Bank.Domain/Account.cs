@@ -6,10 +6,12 @@ namespace Bank.Domain
 {
     public sealed class Account : Entity, IAccount, IPaybleAccount
     {
-        public Account(int accountNo, decimal initialBalance)
+        public Account(Owner owner, int accountNo, decimal initialBalance)
             :this(accountNo)
         {
             this.Balance = initialBalance;
+            this.Owner = owner;
+            this.OwnerId = owner.Id;
         }
 
         public Account(int accountNo)
@@ -22,6 +24,8 @@ namespace Bank.Domain
         {
             History = new List<AccountHistory>();
         }
+
+        public int OwnerId { get; }
 
         public Owner Owner { get; }
 
