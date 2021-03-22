@@ -75,6 +75,7 @@ namespace Bank.Api.Controllers
             var account = await _context.Accounts
                                         .Where(a => a.No == id)
                                         .Include(a => a.History)
+                                        .Include(a => a.Owner)
                                         .SingleOrDefaultAsync();
             if (account is null)
                 return NotFound($"Não foi possível localizar conta com número {id}");

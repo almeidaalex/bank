@@ -1,10 +1,8 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Bank.Domain;
 using Bank.Domain.Events;
-using Bank.Domain.SeedWork;
 using Bank.Infra;
 using MediatR;
 
@@ -31,8 +29,7 @@ namespace Bank.Api.Handlers
             if (account is Account)
             {
                 var history = new AccountHistory(accountEvent.When, accountEvent.ToString(), accountEvent.Amount, accountEvent.What);
-                account.AddHistory(history);
-                _context.SaveChangesAsync(cancellationToken);
+                account.AddHistory(history);                
             }
         }
     }

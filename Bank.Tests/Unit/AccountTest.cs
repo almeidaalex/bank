@@ -75,7 +75,7 @@ namespace Bank.Tests.Unit
             account.Withdraw(amount);
             account.Events
                 .OfType<WithdrawnAmountEvent>()
-                .Should().ContainSingle(e => e.Amount == amount);
+                .Should().ContainSingle(e => e.Amount == -200.14m);
         }
 
         [Fact]
@@ -95,7 +95,7 @@ namespace Bank.Tests.Unit
             account.ChargePayment(invoice);
             account.Events
                 .OfType<ChargedPaymentEvent>()
-                .Should().ContainSingle(e => e.Amount == 500);
+                .Should().ContainSingle(e => e.Amount == -500);
               
         }
     }

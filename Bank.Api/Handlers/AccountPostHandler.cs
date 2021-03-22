@@ -1,4 +1,6 @@
-﻿using Bank.Domain;
+﻿using Bank.Api.Commands;
+using Bank.Domain;
+using Bank.Domain.Contracts;
 using Bank.Infra;
 using MediatR.Pipeline;
 using System.Threading;
@@ -6,7 +8,9 @@ using System.Threading.Tasks;
 
 namespace Bank.Api.Handlers
 {
-    public class AccountPostHandler : IRequestPostProcessor<WithdrawCommand, Result<Account>>
+    public class AccountPostHandler<TRequest, TResponse> : 
+        IRequestPostProcessor<AccountCommand<Account>, Result<Account>>,
+        IRequestPostProcessor<AccountCommand<IPaybleAccount>, Result<IPaybleAccount>>
     {
         private readonly BankDbContext _context;
 
@@ -14,7 +18,14 @@ namespace Bank.Api.Handlers
         {
             this._context = context;
         }
-        public Task Process(WithdrawCommand request, Result<Account> response, CancellationToken cancellationToken)
+        public Task Process(AccountCommand<Account> request, Result<Account> response, CancellationToken cancellationToken)
+        {
+            if (response.Success)
+                _context.SaveChangesAsync(cancellationToken);
+            return Task.CompletedTask;
+        }
+
+        public Task Process(AccountCommand<IPaybleAccount> request, Result<IPaybleAccount> response, CancellationToken cancellationToken)
         {
             if (response.Success)
                 _context.SaveChangesAsync(cancellationToken);

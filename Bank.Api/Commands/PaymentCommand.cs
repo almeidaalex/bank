@@ -1,18 +1,16 @@
 ﻿using Bank.Domain;
-using Bank.Domain.SeedWork;
-using MediatR;
+using Bank.Domain.Contracts;
 
 namespace Bank.Api.Commands
 {
-    public sealed class PaymentCommand : IRequest<Result<IPaybleAccount>>
+    public sealed class PaymentCommand : AccountCommand<IPaybleAccount>
     {
-        public PaymentCommand(int accounNo, Invoice invoice)
+        public PaymentCommand(int accountNo, Invoice invoice)
+            :base(accountNo)
         {
-            this.AccountNo = accounNo;
+            
             this.Invoice = invoice;
-        }
-
-        public int AccountNo { get; }
+        }        
         public Invoice Invoice { get; }
 
     }

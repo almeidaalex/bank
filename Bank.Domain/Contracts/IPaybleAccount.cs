@@ -1,4 +1,4 @@
-﻿namespace Bank.Domain.SeedWork
+﻿namespace Bank.Domain.Contracts
 {
     public interface IPaybleAccount
     {

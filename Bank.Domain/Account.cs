@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Bank.Domain.Contracts;
 using Bank.Domain.Events;
 using Bank.Domain.SeedWork;
 
@@ -85,7 +86,7 @@ namespace Bank.Domain
         public void ChargePayment(Invoice invoice)
         {   
             this.Balance -= invoice.Amount;
-            this.AddDomainEvent(new ChargedPaymentEvent(invoice, this));
+            this.AddDomainEvent(new ChargedPaymentEvent(this, invoice));
         }
 
         public void AddHistory(AccountHistory accountHistory)

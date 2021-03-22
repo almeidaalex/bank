@@ -1,16 +1,15 @@
-﻿using Bank.Domain;
-using MediatR;
+﻿using Bank.Api.Commands;
+using Bank.Domain;
 
 namespace Bank.Api
 {
-    public sealed class WithdrawCommand : IRequest<Result<Account>>
+    public sealed class WithdrawCommand : AccountCommand<Account>
     {
         public WithdrawCommand(decimal amount, int accountNo)
+            :base(accountNo)
         {
-            this.Amount = amount;
-            this.AccountNo = accountNo;
+            this.Amount = amount;            
         }
-        public decimal Amount { get; }
-        public int AccountNo { get; }
+        public decimal Amount { get; }        
     }
 }

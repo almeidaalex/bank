@@ -1,6 +1,5 @@
 ﻿using Bank.Domain;
 using FluentAssertions;
-using Org.BouncyCastle.Crypto.Agreement;
 using Xunit;
 
 namespace Bank.Tests.Unit
@@ -13,7 +12,7 @@ namespace Bank.Tests.Unit
         {
             _service = new PaymentService();
             _owner = new Owner("Alex A.");
-    }
+        }
 
         [Fact]
         public void Should_be_able_to_pay_if_the_account_has_enough_balance()

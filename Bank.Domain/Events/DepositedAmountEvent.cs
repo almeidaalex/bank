@@ -1,27 +1,17 @@
-﻿using Bank.Domain.SeedWork;
-using System;
+﻿using Bank.Domain.Contracts;
+using Bank.Domain.SeedWork;
 
-namespace Bank.Domain.SeedWork
+namespace Bank.Domain.Events
 {
-    public class DepositedAmountEvent : IDomainEvent
+    public sealed class DepositedAmountEvent : AccountEvent
     {
-        private readonly decimal _amount;
-        private readonly IAccount _account;
-        private readonly DateTime _when;
-
         public DepositedAmountEvent(decimal amount, IAccount account)
+            : base(account, EventType.Withdraw, amount)
         {
-            this._amount = amount;
-            this._account = account;
-            this._when = DateTime.Now; //check if needed            
+            
         }
 
-        public IAccount Account => _account;
-
-        public EventType What => EventType.Deposit;
-
-        public decimal Amount => _amount;
-
-        public DateTime When => _when;
+        public override string ToString() =>
+            $"Depósito realizado no valor de {Amount:c2}";
     }
 }

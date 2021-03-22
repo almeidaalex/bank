@@ -1,11 +1,12 @@
-﻿using Bank.Domain.SeedWork;
+﻿using Bank.Domain.Contracts;
+using Bank.Domain.SeedWork;
 
 namespace Bank.Domain.Events
 {
     public sealed class WithdrawnAmountEvent : AccountEvent
     {
         public WithdrawnAmountEvent(IAccount account, decimal amount)
-            :base(account, EventType.Withdraw, amount)
+            :base(account, EventType.Withdraw, amount * -1)
         {
            
         }

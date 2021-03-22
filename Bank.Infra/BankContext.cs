@@ -2,7 +2,6 @@
 using Bank.Domain.SeedWork;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -21,7 +20,7 @@ namespace Bank.Infra
         }
 
         public DbSet<Account> Accounts { get; private set; }
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var owner = modelBuilder.Entity<Owner>();

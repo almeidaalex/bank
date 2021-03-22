@@ -1,6 +1,6 @@
 ﻿using Bank.Api.Commands;
 using Bank.Domain;
-using Bank.Domain.SeedWork;
+using Bank.Domain.Contracts;
 using Bank.Infra;
 using MediatR;
 using System.Threading;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Bank.Api.Handlers
 {
-    public class AccountRequestHandler :
+    public class AccountHandler :
         IRequestHandler<WithdrawCommand, Result<Account>>,
         IRequestHandler<DepositCommand, Result<Account>>,
         IRequestHandler<PaymentCommand, Result<IPaybleAccount>>
@@ -16,7 +16,7 @@ namespace Bank.Api.Handlers
         private readonly BankDbContext _context;
         private readonly IPaymentService _paymentService;
 
-        public AccountRequestHandler(BankDbContext context, IPaymentService paymentService)
+        public AccountHandler(BankDbContext context, IPaymentService paymentService)
         {
             this._context = context;
             _paymentService = paymentService;

@@ -18,10 +18,10 @@ namespace Bank.Domain
         }
 
         public int Id { get;  }
-        public DateTime Date { get; }
-        public string Description { get; }
-        public decimal Amount { get; }
-        public EventType Operation { get; }
-        public int AccountNo { get; }
+        public DateTime Date { get; private set; }
+        public string Description { get; private set; }
+        public decimal Amount { get; private set; }
+        public EventType Operation { get; private set; }
+        public int AccountNo { get; private set; }
     }
 }

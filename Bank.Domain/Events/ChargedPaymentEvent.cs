@@ -1,27 +1,18 @@
 ﻿using System;
+using Bank.Domain.Contracts;
 using Bank.Domain.SeedWork;
 
 namespace Bank.Domain.Events
 {
-    public class ChargedPaymentEvent : IDomainEvent
+    public sealed class ChargedPaymentEvent : AccountEvent
     {
-        private readonly decimal _amount;
-        private readonly IPaybleAccount _account;
-        private readonly DateTime _when;
-
-        public ChargedPaymentEvent(Invoice invoice, IPaybleAccount account)
+        private readonly Invoice _invoice;
+        public ChargedPaymentEvent(IAccount account, Invoice invoice)
+            : base(account, EventType.Payment, invoice.Amount * -1)
         {
-            this._amount = invoice.Amount;
-            this._account = account;
-            this._when = DateTime.Now;
+            _invoice = invoice;
         }
-
-        public IPaybleAccount Account => _account;
-
-        public EventType What => EventType.Payment;
-
-        public decimal Amount => _amount;
-
-        public DateTime When => _when;
+        public override string ToString() =>
+            $"Pagamento #{_invoice.Number} realizado no valor de {Amount:c2}";
     }
 }

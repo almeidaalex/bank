@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
@@ -58,6 +59,9 @@ namespace Bank.Tests.Integration
             var account = await response.Content.ReadFromJsonAsync<AccountDto>();
 
             account.Statements.Should().HaveCount(1);
+            var statement = account.Statements.First();
+            statement.Amount.Should().Be(-599);
+            statement.AccountNo.Should().Be(1);
         }
     }
 }

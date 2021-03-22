@@ -1,4 +1,5 @@
 ﻿using System;
+using Bank.Domain.Contracts;
 using Bank.Domain.SeedWork;
 
 namespace Bank.Domain.Events
@@ -16,7 +17,7 @@ namespace Bank.Domain.Events
 
         public EventType What { get; }
 
-        public decimal Amount { get;}
+        public decimal Amount { get; }
 
         public DateTime When => DateTime.Now;
     }
