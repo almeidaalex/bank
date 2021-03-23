@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>Banco</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 </head>
 <body>
@@ -18,39 +18,64 @@
             </div>
             <div class="col-lg">
                 <div class="input-group mb-3">
-                    <input type="number" class="form-control"placeholder="Valor Saque" id="txt-withdraw">
-                    <button class="btn btn-outline-secondary" type="button" id="btn-withdrawn">Sacar</button>
+                    <input type="number" class="form-control" placeholder="Valor Saque" id="txt-withdraw">
+                    <button class="btn btn-outline-secondary" type="button" id="btn-withdraw">Sacar</button>
                 </div>
-            </div>  
+            </div>
+        </article>
+        <article class="row">
+            <div class="col-lg" id="pay">
+                <input type="text" id="number" />
+                <input type="text" id="amount" />
+                <input type="date" id="duedate" />
+                <button type="button" id="btn-pay">Pagar</button>
+            </div>
         </article>
         <main>
             <table class="table">
                 <thead>
                     <tr>
                         <th scope="col">Data</th>
-                        <th scope="col">Operação</th>                        
+                        <th scope="col">Operação</th>
                         <th scope="col">Valor</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td colspan="3">
-                            <span>Não há registros</span>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
         </main>
     </div>
-    <script src="js/index.js"></script>
-    
     <template id="tbl-row">
         <tr>
             <td class="date"></td>
-            <td class="operation"></td>            
+            <td class="operation"></td>
             <td class="amount"></td>
         </tr>
     </template>
+
+    <template id="empty-row">
+        <tr>
+            <td colspan="3">
+                <span>Não há registros</span>
+            </td>
+        </tr>
+    </template>
+
+    <script src="js/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img src="..." class="rounded me-2" alt="...">
+            <strong class="me-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Hello, world! This is a toast message.
+        </div>
+    </div>
+
 </body>
 
 </html>
