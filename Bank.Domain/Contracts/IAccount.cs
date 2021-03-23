@@ -8,6 +8,8 @@
 
         Result Withdraw(decimal amount);
 
+        decimal Balance { get; }
+
         void AddHistory(AccountHistory accountHistory);
     }
 }

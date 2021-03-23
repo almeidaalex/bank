@@ -33,19 +33,7 @@ namespace Bank.Tests.Unit
             var account = new Account(1);
             var result = account.Deposit(amount);
             result.Failure.Should().BeTrue();
-        }
-
-        [Fact]
-        public void Should_monetize_the_balance_every_day_with_by_given_rate()
-        {
-            var account = new Account(1);
-            account.Deposit(100.00m);
-            for (int day = 1; day <= 10; day++)
-            {
-                account.Monetize(0.34m);
-            }
-            Math.Round(account.Balance,2).Should().Be(103.45m);
-        }
+        }       
 
         [Fact]
         public void Should_be_possible_to_withdraw_money_from_banking_account()

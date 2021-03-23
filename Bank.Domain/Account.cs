@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Bank.Domain.Contracts;
 using Bank.Domain.Events;
 using Bank.Domain.SeedWork;
 
 namespace Bank.Domain
 {
-    public sealed class Account : Entity, IAccount, IPaybleAccount
+    public sealed class Account : Entity, IAccount, IPaybleAccount, IYieldAccount
     {
         public Account(Owner owner, int accountNo, decimal initialBalance)
             :this(accountNo)
@@ -32,8 +33,7 @@ namespace Bank.Domain
 
         public int No { get; }
 
-        public decimal Balance { get; private set; } = 0;
-
+        public decimal Balance { get; internal set; } = 0;
 
         public Result IsValidOperation(decimal amount)
         {
@@ -63,11 +63,6 @@ namespace Bank.Domain
             return Result.Ok();
         }
 
-        public void Monetize(decimal rate)
-        {
-            this.Balance *= rate/100 + 1;
-        }
-
         public Result Withdraw(decimal amount)
         {
             var result = IsValidOperation(amount);
@@ -95,5 +90,13 @@ namespace Bank.Domain
         }
 
         public List<AccountHistory> History { get; set; }
+
+        public DateTime LastYieldedDate { get; private set; }
+
+        public void SetBalance(decimal balance, DateTime currentDate)
+        {
+            this.Balance = balance;
+            this.LastYieldedDate = currentDate;
+        }
     }
 }

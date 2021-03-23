@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Bank.Api;
 using Bank.Api.Commands;
 using Bank.Api.DTOs;
-using Bank.Api.ViewModels;
 using Bank.Domain;
 using Bank.Tests.Integration.Helpers;
 using FluentAssertions;

@@ -1,16 +1,10 @@
 ﻿using Bank.Api.Commands;
 using Bank.Api.DTOs;
-using Bank.Api.ViewModels;
-using Bank.Domain;
 using Bank.Infra;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -72,7 +66,7 @@ namespace Bank.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetStatements(int id)
         {
-            var account = await _context.Accounts
+            var account = await _context.Accounts                                        
                                         .Where(a => a.No == id)
                                         .Include(a => a.History)
                                         .Include(a => a.Owner)
@@ -83,6 +77,15 @@ namespace Bank.Api.Controllers
             AccountDto dto = account;
             return Ok(dto);
 
+        }
+
+        [Route("calculateIncome")]
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]        
+        public IActionResult CalculateIncome([FromBody] CalculateIncomeCommand command)
+        {
+            _mediator.Send(command);
+            return Accepted();
         }
     }
 
