@@ -103,7 +103,7 @@ Response body
 <br />
 
 ## Testes Unitários e Integração
-O projeto também conta com cobertura de testes unitários e testes de integração. Para executar os testes incluindo os resutlados de cobertura, executar o command:
+O projeto também conta com cobertura de testes unitários e testes de integração. Para executar os testes, incluindo os resultados de cobertura, executar o comando:
 
 ```bash
 $ dotnet test /p:CollectCoverage=true
