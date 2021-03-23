@@ -6,6 +6,6 @@ namespace Bank.Domain.Contracts
     {
         DateTime? LastYieldedDate { get; }
 
-        void SetBalance(decimal balance, DateTime currentDate);
+        void SetYield(decimal yield, DateTime currentDate);
     }
 }

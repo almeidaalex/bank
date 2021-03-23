@@ -11,11 +11,12 @@ namespace Bank.Domain
     {
         public void CalculateInterestFor(DateTime forDate, IYieldAccount account, double interestRate, uint days = 1)
         {
-            if (ItHasAlreadyBeenCalculated(forDate, account.LastYieldedDate.GetValueOrDefault(), days))
+            if (HasPositiveBalance(account) 
+                && ItHasAlreadyBeenCalculated(forDate, account.LastYieldedDate.GetValueOrDefault(), days))
             {
-                decimal calc = Convert.ToDecimal(Math.Pow(1 + (interestRate / 100d), days / 252d));
+                decimal calc = Convert.ToDecimal(Math.Pow(1 + interestRate / 100d, days / 252d) - 1);
                 var balance = Math.Round(calc * account.Balance, 2);
-                account.SetBalance(balance, forDate);                
+                account.SetYield(balance, forDate);                
             }            
         }
 
@@ -29,5 +30,7 @@ namespace Bank.Domain
 
         private static bool ItHasAlreadyBeenCalculated(DateTime forDate, DateTime lastYieldedDate, uint days) =>
             forDate > lastYieldedDate.AddDays(days);
+
+        private static bool HasPositiveBalance(IYieldAccount account) => account.Balance > 0;
     }
 }

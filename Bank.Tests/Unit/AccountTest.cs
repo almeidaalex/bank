@@ -86,5 +86,20 @@ namespace Bank.Tests.Unit
                 .Should().ContainSingle(e => e.Amount == -500);
               
         }
+
+        [Fact]
+        public void Should_add_event_domain_income_calculated_when_set_balance_is_called()
+        {
+            var account = new Account(_owner, 1, 1000);
+            var forDate = new DateTime(2020, 03, 16);
+            account.SetYield(10, forDate);
+
+            account.Balance.Should().Be(1010);
+
+            account.Events
+                .OfType<CalculatedIncomeEvent>()
+                .Should().ContainSingle(e => e.Amount == 10);
+
+        }
     }
 }

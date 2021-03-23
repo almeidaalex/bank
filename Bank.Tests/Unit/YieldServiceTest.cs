@@ -23,8 +23,23 @@ namespace Bank.Tests.Unit
             var yieldService = new YieldService();
             yieldService.CalculateInterestFor(currentDate, account, interestRate: 3.52, days: 1);
 
-            account.Received().SetBalance(67.96m, currentDate);
+            account.Received().SetYield(.01m, currentDate);
         }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        public void Should_apply_savings_only_to_positive_balance(decimal balance)
+        {
+            var account = Substitute.For<IYieldAccount>();
+            account.Balance.Returns(balance);
+            var currentDate = new DateTime(2020, 07, 29);
+            var yieldService = new YieldService();
+            yieldService.CalculateInterestFor(currentDate, account, interestRate: 3.52, days: 1);
+
+            account.Received(Quantity.None()).SetYield(Arg.Any<decimal>(), Arg.Any<DateTime>());
+        }
+
 
         [Fact]
         public void Should_not_calculate_interest_rate_twice_for_the_same_day()
@@ -37,7 +52,7 @@ namespace Bank.Tests.Unit
             var yieldService = new YieldService();
             yieldService.CalculateInterestFor(currentDate, account, interestRate: 3.52, days: 1);            
 
-            account.Received(Quantity.None()).SetBalance(Arg.Any<decimal>(), Arg.Any<DateTime>());
+            account.Received(Quantity.None()).SetYield(Arg.Any<decimal>(), Arg.Any<DateTime>());
         }
 
         [Fact]
@@ -51,7 +66,7 @@ namespace Bank.Tests.Unit
             var yieldService = new YieldService();
             yieldService.CalculateInterestFor(currentDate, account, interestRate: 3.52, days: 2);
 
-            account.Received(Quantity.None()).SetBalance(Arg.Any<decimal>(), Arg.Any<DateTime>());
+            account.Received(Quantity.None()).SetYield(Arg.Any<decimal>(), Arg.Any<DateTime>());
         }
     }
 

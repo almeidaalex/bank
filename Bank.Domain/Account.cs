@@ -93,10 +93,11 @@ namespace Bank.Domain
 
         public DateTime? LastYieldedDate { get; private set; }
 
-        public void SetBalance(decimal balance, DateTime currentDate)
+        public void SetYield(decimal yield, DateTime currentDate)
         {
-            this.Balance = balance;
+            this.Balance += yield;
             this.LastYieldedDate = currentDate;
+            this.AddDomainEvent(new CalculatedIncomeEvent(this, yield));
         }
     }
 }
