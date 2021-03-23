@@ -64,6 +64,7 @@ namespace Bank.Api.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType(typeof(AccountDto))]
         public async Task<IActionResult> GetStatements(int id)
         {
             var account = await _context.Accounts    

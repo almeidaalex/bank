@@ -1,6 +1,15 @@
 version: '3.1'
 
 services:  
+    api:
+        build: 
+            context: .
+            dockerfile: ./Bank.Api/Dockerfile
+        ports:
+           - "8080:80" 
+        depends_on:
+            - db
+
     db:
         image: mysql
         restart: always
