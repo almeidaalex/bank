@@ -59,6 +59,8 @@ namespace Bank.Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bank.Api v1"));
             }
 
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseAuthorization();

@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <header>
+        </header>
+        <article class="row">
+            <div class="col-lg">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Valor Depósito" id="txt-deposit">
+                    <button class="btn btn-outline-secondary" type="button" id="btn-deposit">Depositar</button>
+                </div>
+            </div>
+            <div class="col-lg">
+                <div class="input-group mb-3">
+                    <input type="number" class="form-control"placeholder="Valor Saque" id="txt-withdraw">
+                    <button class="btn btn-outline-secondary" type="button" id="btn-withdrawn">Sacar</button>
+                </div>
+            </div>  
+        </article>
+        <main>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Data</th>
+                        <th scope="col">Operação</th>                        
+                        <th scope="col">Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="3">
+                            <span>Não há registros</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+    <script src="js/index.js"></script>
+    
+    <template id="tbl-row">
+        <tr>
+            <td class="date"></td>
+            <td class="operation"></td>            
+            <td class="amount"></td>
+        </tr>
+    </template>
+</body>
+
+</html>

@@ -65,5 +65,23 @@ namespace Bank.Tests.Integration
             statement.AccountNo.Should().Be(3);
             
         }
+
+
+        [Fact]
+        public async Task Should_return_bad_request_when_try_to_pay_a_negative_amount()
+        {
+            var invoice = new InvoiceDto {
+                Number = 345454,
+                DueDate = new DateTime(),
+                Amount = -100
+            };
+
+            var command = new PaymentCommand { AccountNo = 3, Invoice = invoice };
+            var content = new StringContent(command.AsJson(), Encoding.UTF8, "application/json");           
+
+            var response = await _httpClient.PostAsync("api/account/payment", content); ;
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+        }
     }
 }
