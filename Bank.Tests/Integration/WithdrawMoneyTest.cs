@@ -18,7 +18,7 @@ namespace Bank.Tests.Integration
         private readonly HttpClient _httpClient;
         public WithdrawMoneyTest(ApplicationFactoryMemoryDb<Startup> factory)
         {
-            var owner = new Owner("Alex A.");
+            var owner = new Owner(1, "Alex A.");
             var account = new Account(owner, accountNo: 1, initialBalance: 10000);            
             _httpClient = factory.AddSeedData(account).CreateClient();
         }

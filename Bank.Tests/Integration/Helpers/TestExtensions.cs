@@ -22,7 +22,7 @@ namespace Bank.Tests.Integration.Helpers
                 bd.ConfigureServices(services => {
                     var sp = services.BuildServiceProvider();
                     using var scope = sp.CreateScope();
-                    var db = scope.ServiceProvider.GetRequiredService<BankDbContext>();
+                    var db = scope.ServiceProvider.GetRequiredService<BankDbContext>();                       
                     db.AddRange(entities);
                     db.SaveChangesAsync();
 

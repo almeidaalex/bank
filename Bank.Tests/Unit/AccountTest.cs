@@ -13,7 +13,7 @@ namespace Bank.Tests.Unit
         private readonly Owner _owner;
         public AccountTest()
         {
-            _owner = new Owner("Alex A.");
+            _owner = new Owner(1, "Alex A.");
         }
         
         [Fact]

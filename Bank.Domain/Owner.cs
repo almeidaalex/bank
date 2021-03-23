@@ -1,9 +1,12 @@
-﻿namespace Bank.Domain
+﻿using System.Collections.Generic;
+
+namespace Bank.Domain
 {
     public class Owner
     {
-        public Owner(string title)
-        {   
+        public Owner(int id, string title)
+        {
+            Id = id;
             Title = title;
         }
 
@@ -14,5 +17,6 @@
 
         public int Id { get; }
         public string Title { get; }
+        public IEnumerable<Account> Accounts { get; }
     }
 }

@@ -11,7 +11,7 @@ namespace Bank.Tests.Unit
         public PaymentTest()
         {
             _service = new PaymentService();
-            _owner = new Owner("Alex A.");
+            _owner = new Owner(1, "Alex A.");
         }
 
         [Fact]

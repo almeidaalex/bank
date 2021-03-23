@@ -6,7 +6,7 @@ namespace Bank.Domain.Events
     public sealed class DepositedAmountEvent : AccountEvent
     {
         public DepositedAmountEvent(decimal amount, IAccount account)
-            : base(account, EventType.Withdraw, amount)
+            : base(account, EventType.Deposit, amount)
         {
             
         }

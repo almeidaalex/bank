@@ -13,35 +13,32 @@ namespace Bank.Infra
     {
         private readonly IMediator _mediator;
 
+
+        public BankDbContext(DbContextOptions<BankDbContext> options)
+          : base(options)
+        {
+            
+        }
+
         public BankDbContext(DbContextOptions<BankDbContext> options, IMediator mediator)
-            :base(options)
+            :this(options)
         {
             _mediator = mediator;
         }
 
         public DbSet<Account> Accounts { get; private set; }
         
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var owner = modelBuilder.Entity<Owner>();
-            owner.HasKey(o => o.Id);            
+            ConfigureAccount(modelBuilder);
 
-            var account = modelBuilder.Entity<Account>();
-            account.HasKey(a => a.No);
-            account.HasMany(a => a.Operations)
-                   .WithOne()
-                   .HasForeignKey(h => h.AccountNo);
+            ConfigureOwner(modelBuilder);
 
-            account.HasOne(a => a.Owner)
-                   .WithMany()
-                   .HasForeignKey(a => a.OwnerId);
-
-            var history = modelBuilder.Entity<AccountOperation>();
-            history.HasKey(a => a.Id);
-            history.Property(a => a.Id).ValueGeneratedOnAdd();
+            ConfigureAccountOperations(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
-        }
+        }       
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
@@ -60,12 +57,59 @@ namespace Bank.Infra
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
+        private static void ConfigureAccountOperations(ModelBuilder builder)
+        {
+            var operations = builder.Entity<AccountOperation>();
+            operations.HasKey(a => a.Id);
+            operations.Property(a => a.Id).ValueGeneratedOnAdd();
+        }
+
+        private static void ConfigureOwner(ModelBuilder modelBuilder)
+        {
+            var owner = modelBuilder.Entity<Owner>();
+            owner.HasKey(o => o.Id);
+            owner.Property(o => o.Id).ValueGeneratedNever();
+            owner.Property(o => o.Title).IsRequired();
+            //owner.HasMany(o => o.Accounts)
+            //     .WithOne(a => a.Owner)
+            //     .HasForeignKey(a => a.OwnerId);
+
+            //owner.HasData(new Owner(1, "Alex A."), new Owner(2, "Grace N."));
+        }
+
+        private void ConfigureAccount(ModelBuilder builder)
+        {
+            var account = builder.Entity<Account>();
+            account.HasKey(a => a.No);
+            account.Property(a => a.No).ValueGeneratedNever();
+            account.Property(a => a.OwnerId);
+
+            account.HasMany(a => a.Operations)
+                   .WithOne()
+                   .HasForeignKey(h => h.AccountNo);
+
+            account.HasOne(a => a.Owner)
+                   .WithMany(a => a.Accounts)
+                   .HasForeignKey(a => a.OwnerId);
+
+            //account.HasData(CreateSeedData());
+        }
+
         private static void CleanEvents(IEnumerable<IEntity> entities)
         {
             foreach (var entity in entities)            
                 entity.ClearEvents();            
         }
 
-        
+        private Account[] CreateSeedData()
+        {
+            Owner owner1 = new (1, "Alex A.");
+            Owner owner2 = new (2, "Grace N.");
+            return new[]
+            {
+                new Account(owner1, 1001, 1000),
+                new Account(owner2, 1002, 400)
+            };
+        }
     }
 }

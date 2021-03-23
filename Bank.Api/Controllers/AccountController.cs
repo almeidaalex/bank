@@ -31,7 +31,7 @@ namespace Bank.Api.Controllers
         {
             var result = await _mediator.Send(command);
             return result.Success
-                ? Ok(result)
+                ? Ok()
                 : BadRequest(result.Error);
                 
         }
@@ -44,7 +44,7 @@ namespace Bank.Api.Controllers
         {
             var result = await _mediator.Send(command);
             return result.Success
-                ? Ok(result)
+                ? Ok()
                 : BadRequest(result.Error);
         }
 
@@ -56,7 +56,7 @@ namespace Bank.Api.Controllers
         {            
             var result = await _mediator.Send(command);
             return result.Success
-                ? Ok(result)
+                ? Ok()
                 : BadRequest(result.Error);
         }
 
@@ -66,7 +66,8 @@ namespace Bank.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetStatements(int id)
         {
-            var account = await _context.Accounts                                        
+            var account = await _context.Accounts    
+                                        .AsNoTracking()
                                         .Where(a => a.No == id)
                                         .Include(a => a.Operations)
                                         .Include(a => a.Owner)

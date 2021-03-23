@@ -31,7 +31,7 @@ namespace Bank.Domain
 
         public int OwnerId { get; }
 
-        public Owner Owner { get; }
+        public Owner Owner { get; private set; }
 
         public int No { get; }
 
@@ -91,7 +91,7 @@ namespace Bank.Domain
         
         public IReadOnlyCollection<AccountOperation> Operations => _operations;
 
-        public DateTime LastYieldedDate { get; private set; }
+        public DateTime? LastYieldedDate { get; private set; }
 
         public void SetBalance(decimal balance, DateTime currentDate)
         {
