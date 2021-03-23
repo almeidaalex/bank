@@ -43,6 +43,7 @@ namespace Bank.Api
             services.AddDbContext<BankDbContext>(options => options.UseInMemoryDatabase("BankDb"));
             services.AddMediatR(typeof(Startup));
             services.AddSingleton<IPaymentService, PaymentService>();
+            services.AddSingleton<IYieldService, YieldService>();
             services.AddScoped(typeof(INotificationHandler<AccountEvent>), typeof(AccountEventsHandler<AccountEvent>));
             services.AddScoped(typeof(IRequestPostProcessor<,>), typeof(AccountPostHandler<,>));
         }

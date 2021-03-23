@@ -68,7 +68,7 @@ namespace Bank.Api.Controllers
         {
             var account = await _context.Accounts                                        
                                         .Where(a => a.No == id)
-                                        .Include(a => a.History)
+                                        .Include(a => a.Operations)
                                         .Include(a => a.Owner)
                                         .SingleOrDefaultAsync();
             if (account is null)

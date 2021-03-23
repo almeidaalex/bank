@@ -3,13 +3,13 @@ using Bank.Domain.SeedWork;
 
 namespace Bank.Domain
 {
-    public class AccountHistory 
+    public class AccountOperation 
     {
-        private AccountHistory()            
+        private AccountOperation()            
         { 
         }
 
-        public AccountHistory(DateTime date, string description, decimal amount, EventType operation)            
+        public AccountOperation(DateTime date, string description, decimal amount, EventType operation)            
         {   
             Date = date;
             Description = description;

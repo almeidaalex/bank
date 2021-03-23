@@ -21,7 +21,7 @@ namespace Bank.Api.DTOs
 
         public static implicit operator AccountDto(Account entity)
         {
-            var stats = entity.History.Select(h => (AccountStatementDto)h);
+            var stats = entity.Operations.Select(h => (AccountStatementDto)h);
             return new(entity.No, entity.Owner?.Title, stats);
         }
     }

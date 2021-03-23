@@ -8,6 +8,8 @@ namespace Bank.Domain
 {
     public sealed class Account : Entity, IAccount, IPaybleAccount, IYieldAccount
     {
+        private readonly List<AccountOperation> _operations;
+
         public Account(Owner owner, int accountNo, decimal initialBalance)
             :this(accountNo)
         {
@@ -19,12 +21,12 @@ namespace Bank.Domain
         public Account(int accountNo)
             :this()
         {            
-            No = accountNo;
+            No = accountNo;            
         }
         private Account()
             :base()
         {
-            History = new List<AccountHistory>();
+            _operations = new List<AccountOperation>();
         }
 
         public int OwnerId { get; }
@@ -84,12 +86,10 @@ namespace Bank.Domain
             this.AddDomainEvent(new ChargedPaymentEvent(this, invoice));
         }
 
-        public void AddHistory(AccountHistory accountHistory)
-        {
-            this.History.Add(accountHistory);
-        }
-
-        public List<AccountHistory> History { get; set; }
+        public void AddOperation(AccountOperation accountOperation) =>        
+            _operations.Add(accountOperation);
+        
+        public IReadOnlyCollection<AccountOperation> Operations => _operations;
 
         public DateTime LastYieldedDate { get; private set; }
 

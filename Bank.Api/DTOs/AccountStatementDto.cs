@@ -20,7 +20,7 @@ namespace Bank.Api.DTOs
         public decimal Amount { get; }
         public string Description { get; }
 
-        public static implicit operator AccountStatementDto(AccountHistory entity)
+        public static implicit operator AccountStatementDto(AccountOperation entity)
         {
             return new(entity.Date, entity.Operation.ToString(), entity.Amount, entity.Description, entity.AccountNo);
         }

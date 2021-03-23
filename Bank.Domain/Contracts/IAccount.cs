@@ -10,6 +10,6 @@
 
         decimal Balance { get; }
 
-        void AddHistory(AccountHistory accountHistory);
+        void AddOperation(AccountOperation accountHistory);
     }
 }

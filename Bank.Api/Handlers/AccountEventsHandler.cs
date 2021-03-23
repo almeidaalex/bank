@@ -28,8 +28,8 @@ namespace Bank.Api.Handlers
             var account = _context.Accounts.Find(accountEvent.Account.No);
             if (account is Account)
             {
-                var history = new AccountHistory(accountEvent.When, accountEvent.ToString(), accountEvent.Amount, accountEvent.What);
-                account.AddHistory(history);                
+                var history = new AccountOperation(accountEvent.When, accountEvent.ToString(), accountEvent.Amount, accountEvent.What);
+                account.AddOperation(history);                
             }
         }
     }

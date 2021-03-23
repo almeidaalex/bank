@@ -28,7 +28,7 @@ namespace Bank.Infra
 
             var account = modelBuilder.Entity<Account>();
             account.HasKey(a => a.No);
-            account.HasMany(a => a.History)
+            account.HasMany(a => a.Operations)
                    .WithOne()
                    .HasForeignKey(h => h.AccountNo);
 
@@ -36,7 +36,7 @@ namespace Bank.Infra
                    .WithMany()
                    .HasForeignKey(a => a.OwnerId);
 
-            var history = modelBuilder.Entity<AccountHistory>();
+            var history = modelBuilder.Entity<AccountOperation>();
             history.HasKey(a => a.Id);
             history.Property(a => a.Id).ValueGeneratedOnAdd();
 
