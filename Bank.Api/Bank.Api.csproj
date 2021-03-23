@@ -22,8 +22,4 @@
     <ProjectReference Include="..\Bank.Infra\Bank.Infra.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\js\" />
-  </ItemGroup>
-
 </Project>
