@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Bank.Tests.Integration
 {
+    [Collection("Deposit #4")]
     public class DepositMoneyTest : IClassFixture<ApplicationFactoryMemoryDb<Startup>>
     {
         private readonly HttpClient _httpClient;

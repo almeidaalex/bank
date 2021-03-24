@@ -13,6 +13,7 @@ using Xunit;
 
 namespace Bank.Tests.Integration
 {
+    [Collection("Withdraw Collection #3")]
     public class WithdrawMoneyTest : IClassFixture<ApplicationFactoryMemoryDb<Startup>> 
     {   
         private readonly HttpClient _httpClient;
@@ -57,8 +58,7 @@ namespace Bank.Tests.Integration
 
             var account = await response.Content.ReadFromJsonAsync<AccountDto>();
 
-            account.Statements.Should().HaveCount(1);
-            var statement = account.Statements.First();
+            var statement = account.Statements.Single(s => s.Operation.Equals("Withdraw"));
             statement.Amount.Should().Be(-599);            
         }
     }

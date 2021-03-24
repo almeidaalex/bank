@@ -19,6 +19,7 @@ using Xunit;
 
 namespace Bank.Tests.Integration
 {
+    [Collection("Calculate Income #1")]
     public class CalculateIncomeTest : IClassFixture<ApplicationFactoryMemoryDb<Startup>>
     {
         private readonly HttpClient _httpClient;
@@ -28,7 +29,7 @@ namespace Bank.Tests.Integration
             _httpClient = factory.AddSeedData(new Account(owner, accountNo: 5, initialBalance: 1000)).CreateClient();
         }
 
-        //[Fact]
+        [Fact]        
         public async Task Should_calculate_income_for_account()
         {
             var command = new CalculateIncomeCommand { ForDate = new DateTime(2021, 01, 01), InterestRate = 2.3 };

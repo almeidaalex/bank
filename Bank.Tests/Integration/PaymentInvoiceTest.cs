@@ -15,6 +15,7 @@ using Xunit;
 
 namespace Bank.Tests.Integration
 {
+    [Collection("Payment #2")]
     public class PaymentInvoiceTest : IClassFixture<ApplicationFactoryMemoryDb<Startup>>
     {
 
