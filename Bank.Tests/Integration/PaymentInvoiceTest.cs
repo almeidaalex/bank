@@ -60,9 +60,8 @@ namespace Bank.Tests.Integration
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var account = await response.Content.ReadFromJsonAsync<AccountDto>();
-                        
-            var statement = account.Statements.First(s => s.Amount == -600);            
-            statement.AccountNo.Should().Be(3);
+
+            var statement = account.Statements.First(s => s.Amount == -600);           
             
         }
 

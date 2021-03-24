@@ -58,6 +58,10 @@ namespace Bank.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bank.Api v1"));
             }
+            else
+            {
+                context.Database.Migrate();
+            }
 
             app.UseStaticFiles();
 
@@ -70,7 +74,7 @@ namespace Bank.Api
                 endpoints.MapControllers();
             });
 
-            context.Database.Migrate();
+           
         }
     }
 }

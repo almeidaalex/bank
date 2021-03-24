@@ -59,8 +59,7 @@ namespace Bank.Tests.Integration
 
             account.Statements.Should().HaveCount(1);
             var statement = account.Statements.First();
-            statement.Amount.Should().Be(-599);
-            statement.AccountNo.Should().Be(1);
+            statement.Amount.Should().Be(-599);            
         }
     }
 }

@@ -1,4 +1,4 @@
-### Banco Simples
+## Banco Simples
 
 Esse projeto tem como intenção simular algumas operações bancárias, de maneira simplificada como Depositar, Sacar e Pagar.
 
@@ -14,6 +14,9 @@ A aplicação é constituída de duas principais partes, frontend e api. Após a
 
 `http://localhost:8080/index.html`
 
+
+## Dados de Teste
+A aplicação tem duas contas pré cadastradas com IDs 1001 e 1002
 
 ## API do Banco
 Também é possível interagir com a aplicação vida API:
@@ -80,7 +83,7 @@ $ curl -X POST "http://localhost:8080/api/account/payment" \
 <br />
 
 #### Extrato
-> GET /api/account/{id}/statement
+> GET /api/account/\{id\}/statement
 
 Response body
 ```json
@@ -99,8 +102,27 @@ Response body
   ]
 }
 ```
+```bash
+$ curl -X GET "http://localhost:8080/api/account/{id}/statement" -H  "accept: text/plain"
+```
 
-<br />
+#### Conta com Rendimento
+É possível ainda fazer com que a conta tenha rendimentos diários, essa é a api para fazer render a conta 
+> PUT /api/account/calculateIncome
+
+Request body
+```json
+{
+  "forDate": "2021-03-24T01:29:18.508Z",
+  "interestRate": 2.3
+}
+```
+
+```bash
+curl -X PUT "http://localhost:5000/api/account/calculateIncome" \
+-H  "accept: */*" -H  "Content-Type: application/json" -d "{\"forDate\":\"2021-03-24T01:29:18.508Z\",\"interestRate\":2.3}"
+```
+<br/>
 
 ## Testes Unitários e Integração
 O projeto também conta com cobertura de testes unitários e testes de integração. Para executar os testes, incluindo os resultados de cobertura, executar o comando:
