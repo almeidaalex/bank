@@ -35,7 +35,7 @@ namespace Bank.Api.Handlers
                 return Task.FromResult(Result.From(account, result));
 
             }
-            return Task.FromResult(Result.Fail<Account>());
+            return Task.FromResult(Result.Fail<Account>($"Conta #{request.AccountNo} não encontrada"));
         }
 
         public Task<Result<Account>> Handle(DepositCommand request, CancellationToken cancellationToken)
@@ -47,7 +47,7 @@ namespace Bank.Api.Handlers
                 return Task.FromResult(Result.From(account, result));
 
             }
-            return Task.FromResult(Result.Fail<Account>());
+            return Task.FromResult(Result.Fail<Account>($"Conta #{request.AccountNo} não encontrada"));
         }
 
         public Task<Result<Account>> Handle(PaymentCommand request, CancellationToken cancellationToken)
@@ -58,7 +58,7 @@ namespace Bank.Api.Handlers
                 var result = _paymentService.Pay(payable, request.Invoice);
                 return Task.FromResult(Result.From(account, result));
             }
-            return Task.FromResult(Result.Fail<Account>());
+            return Task.FromResult(Result.Fail<Account>($"Conta #{request.AccountNo} não encontrada"));
         }
 
       

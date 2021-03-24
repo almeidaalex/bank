@@ -1,11 +1,13 @@
-﻿using Bank.Api.DTOs;
+﻿using System.ComponentModel.DataAnnotations;
+using Bank.Api.DTOs;
 using Bank.Domain;
-using Bank.Domain.Contracts;
 
 namespace Bank.Api.Commands
 {
     public sealed class PaymentCommand : AccountCommand<Account>
     {   
+        [Display(Name = "Boleto")]
+        [Required(ErrorMessage = "O campo '{0}' é obrigatório")]
         public InvoiceDto Invoice { get; set;  }
 
     }

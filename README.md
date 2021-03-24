@@ -119,7 +119,7 @@ Request body
 ```
 
 ```bash
-curl -X PUT "http://localhost:5000/api/account/calculateIncome" \
+curl -X PUT "http://localhost:8080/api/account/calculateIncome" \
 -H  "accept: */*" -H  "Content-Type: application/json" -d "{\"forDate\":\"2021-03-24T01:29:18.508Z\",\"interestRate\":2.3}"
 ```
 <br/>
