@@ -86,13 +86,15 @@ namespace Bank.Infra
 
             account.HasMany(a => a.Operations)
                    .WithOne()
-                   .HasForeignKey(h => h.AccountNo);
+                   .HasForeignKey(h => h.AccountNo)
+                   .OnDelete(DeleteBehavior.Cascade);
 
             account.HasOne(a => a.Owner)
                    .WithMany(a => a.Accounts)
-                   .HasForeignKey(a => a.OwnerId);
+                   .HasForeignKey(a => a.OwnerId)
+                   .OnDelete(DeleteBehavior.Cascade);
 
-            //account.HasData(CreateSeedData());
+            
         }
 
         private static void CleanEvents(IEnumerable<IEntity> entities)

@@ -33,4 +33,7 @@
     <ProjectReference Include="..\Bank.Infra\Bank.Infra.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Integration\Fixtures\" />
+  </ItemGroup>
 </Project>

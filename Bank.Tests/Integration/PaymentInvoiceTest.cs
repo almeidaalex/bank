@@ -9,26 +9,32 @@ using Bank.Api;
 using Bank.Api.Commands;
 using Bank.Api.DTOs;
 using Bank.Domain;
+using Bank.Tests.Integration.Fixtures;
 using Bank.Tests.Integration.Helpers;
 using FluentAssertions;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Bank.Tests.Integration
 {
-    public class PaymentInvoiceTest : IClassFixture<ApplicationFactoryMemoryDb<Startup>>
+    [Collection("AccountFixture")]
+    public class PaymentInvoiceTest : IClassFixture<AccountFixtures<Startup>>
     {
 
         private readonly HttpClient _httpClient;
+        private readonly ITestOutputHelper _testOutput;
 
-        public PaymentInvoiceTest(ApplicationFactoryMemoryDb<Startup> factory)
-        {
-            var owner = new Owner(1, "Alex A.");
-            _httpClient = factory.AddSeedData(new Account(owner, accountNo: 3, initialBalance: 10000)).CreateClient();
+        public PaymentInvoiceTest(AccountFixtures<Startup> factory, ITestOutputHelper testOutput)
+        {            
+            _httpClient = factory.CreateDefaultClient();            
+            _testOutput = testOutput;
+            _testOutput.WriteLine($"The constructor was called {DateTime.Now}");
         }
 
         [Fact]
         public async Task Should_pay_an_invoice_succesfully()
         {
+            _testOutput.WriteLine("Test #1 started");
             var invoice = new InvoiceDto 
             {
                 Number = 345454,
@@ -46,6 +52,7 @@ namespace Bank.Tests.Integration
         [Fact]
         public async Task Should_and_a_historical_registry_when_a_payment_charged_successfuly()
         {
+            _testOutput.WriteLine("Test #2 started");
             var invoice = new InvoiceDto {
                 Number = 345454,
                 DueDate = new DateTime(),
@@ -69,6 +76,7 @@ namespace Bank.Tests.Integration
         [Fact]
         public async Task Should_return_bad_request_when_try_to_pay_a_negative_amount()
         {
+            _testOutput.WriteLine("Test #3 started");
             var invoice = new InvoiceDto {
                 Number = 345454,
                 DueDate = new DateTime(),

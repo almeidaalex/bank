@@ -11,6 +11,7 @@ using Bank.Api;
 using Bank.Api.Commands;
 using Bank.Api.DTOs;
 using Bank.Domain;
+using Bank.Tests.Integration.Fixtures;
 using Bank.Tests.Integration.Helpers;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
@@ -19,16 +20,16 @@ using Xunit;
 
 namespace Bank.Tests.Integration
 {
-    public class CalculateIncomeTest : IClassFixture<ApplicationFactoryMemoryDb<Startup>>
+    [Collection("AccountFixture")]
+    public class CalculateIncomeTest : IClassFixture<AccountFixtures<Startup>>
     {
         private readonly HttpClient _httpClient;
-        public CalculateIncomeTest(ApplicationFactoryMemoryDb<Startup> factory)
+        public CalculateIncomeTest(AccountFixtures<Startup> factory)
         {
-            var owner = new Owner(4, "Alex A.");
-            _httpClient = factory.AddSeedData(new Account(owner, accountNo: 5, initialBalance: 1000)).CreateClient();
+            _httpClient = factory.CreateClient();
         }
 
-        //[Fact]
+        [Fact]
         public async Task Should_calculate_income_for_account()
         {
             var command = new CalculateIncomeCommand { ForDate = new DateTime(2021, 01, 01), InterestRate = 2.3 };
@@ -37,7 +38,7 @@ namespace Bank.Tests.Integration
 
             response.StatusCode.Should().Be(HttpStatusCode.Accepted);
 
-            var getResponse = await _httpClient.GetAsync("/api/account/5/statement");
+            var getResponse = await _httpClient.GetAsync("/api/account/3/statement");
             var account = await getResponse.Content.ReadFromJsonAsync<AccountDto>();
 
             
