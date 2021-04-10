@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data;
+using System.Data.Common;
 using System.Diagnostics;
 using System.Linq;
 using Bank.Api;
@@ -48,10 +50,16 @@ namespace Bank.Tests.Integration.Fixtures
             });
         }
 
-        internal void RemoveAccounts(int id)
+        private BankDbContext GetDbContext()
         {
             var scope = this.Services.CreateScope();
             var db = scope.ServiceProvider.GetRequiredService<BankDbContext>();
+            return db;
+        }
+
+        internal void RemoveAccounts(int id)
+        {   
+            var db = GetDbContext();
             var account = db.Accounts.Find(id);
             db.Accounts.Remove(account);
             db.SaveChanges();
@@ -59,18 +67,21 @@ namespace Bank.Tests.Integration.Fixtures
 
         protected override void Dispose(bool disposing)
         {
-            var scope = this.Services.CreateScope();
-            var db = scope.ServiceProvider.GetRequiredService<BankDbContext>();
+            var db = GetDbContext();
             db.Database.EnsureDeleted();
             base.Dispose(disposing);
         }
 
         public void AddMoreAccounts(params Account[] accounts)
-        {
-            var scope = this.Services.CreateScope();
-            var db = scope.ServiceProvider.GetRequiredService<BankDbContext>();
+        {   
+            var db = GetDbContext();
             db.Accounts.AddRange(accounts);
             db.SaveChanges();
         }
+
+        public DbConnection GetDbConnection() =>
+            GetDbContext().Database.GetDbConnection();
+            
+            
     }
 }

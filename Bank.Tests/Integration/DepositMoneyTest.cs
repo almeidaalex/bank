@@ -13,7 +13,7 @@ using Xunit;
 namespace Bank.Tests.Integration
 {
     [Collection(FixtureNames.ACCOUNT_FIXTURE)]
-    public class DepositMoneyTest
+    public class DepositMoneyTest : IClassFixture<DefaultAccountFixture>
     {
         private readonly HttpClient _httpClient;
         public DepositMoneyTest(AccountFixture<Startup> factory)
@@ -24,7 +24,7 @@ namespace Bank.Tests.Integration
         [Fact]
         public async Task Should_be_possible_to_deposit_amount_on_account()
         {
-            var command = new DepositCommand { AccountNo = 3, Amount = 100 };
+            var command = new DepositCommand { AccountNo = 4, Amount = 100 };
             var content = new StringContent(command.AsJson(), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("api/account/deposit", content);
 

@@ -18,7 +18,7 @@ using Xunit.Abstractions;
 namespace Bank.Tests.Integration
 {
     [Collection(FixtureNames.ACCOUNT_FIXTURE)]
-    public class PaymentInvoiceTest 
+    public class PaymentInvoiceTest
     {
 
         private readonly HttpClient _httpClient;
@@ -33,8 +33,7 @@ namespace Bank.Tests.Integration
 
         [Fact]
         public async Task Should_pay_an_invoice_succesfully()
-        {
-            _testOutput.WriteLine("Test #1 started");
+        {   
             var invoice = new InvoiceDto 
             {
                 Number = 345454,
@@ -42,7 +41,7 @@ namespace Bank.Tests.Integration
                 Amount = 500
             };
 
-            var command = new PaymentCommand { AccountNo = 3, Invoice = invoice };
+            var command = new PaymentCommand { AccountNo = 1001, Invoice = invoice };
             var content = new StringContent(command.AsJson(), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("api/account/payment", content);
 
@@ -52,18 +51,18 @@ namespace Bank.Tests.Integration
         [Fact]
         public async Task Should_and_a_historical_registry_when_a_payment_charged_successfuly()
         {
-            _testOutput.WriteLine("Test #2 started");
+            
             var invoice = new InvoiceDto {
                 Number = 345454,
                 DueDate = new DateTime(),
                 Amount = 600
             };
 
-            var command = new PaymentCommand { AccountNo = 3, Invoice = invoice };
+            var command = new PaymentCommand { AccountNo = 1001, Invoice = invoice };
             var content = new StringContent(command.AsJson(), Encoding.UTF8, "application/json");
             await _httpClient.PostAsync("api/account/payment", content);
             
-            var response = await _httpClient.GetAsync("api/account/3/statement");
+            var response = await _httpClient.GetAsync("api/account/1001/statement");
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var account = await response.Content.ReadFromJsonAsync<AccountDto>();
@@ -75,15 +74,14 @@ namespace Bank.Tests.Integration
 
         [Fact]
         public async Task Should_return_bad_request_when_try_to_pay_a_negative_amount()
-        {
-            _testOutput.WriteLine("Test #3 started");
+        {   
             var invoice = new InvoiceDto {
                 Number = 345454,
                 DueDate = new DateTime(),
                 Amount = -100
             };
 
-            var command = new PaymentCommand { AccountNo = 3, Invoice = invoice };
+            var command = new PaymentCommand { AccountNo = 1001, Invoice = invoice };
             var content = new StringContent(command.AsJson(), Encoding.UTF8, "application/json");           
 
             var response = await _httpClient.PostAsync("api/account/payment", content); ;

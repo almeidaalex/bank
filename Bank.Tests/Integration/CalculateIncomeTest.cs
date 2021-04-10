@@ -19,7 +19,7 @@ using Xunit;
 namespace Bank.Tests.Integration
 {
     [Collection(FixtureNames.ACCOUNT_FIXTURE)]
-    public class CalculateIncomeTest 
+    public class CalculateIncomeTest
     {
         private readonly HttpClient _httpClient;
         public CalculateIncomeTest(AccountFixture<Startup> factory)
@@ -36,7 +36,7 @@ namespace Bank.Tests.Integration
 
             response.StatusCode.Should().Be(HttpStatusCode.Accepted);
 
-            var getResponse = await _httpClient.GetAsync("/api/account/3/statement");
+            var getResponse = await _httpClient.GetAsync("/api/account/1001/statement");
             var account = await getResponse.Content.ReadFromJsonAsync<AccountDto>();
 
             
