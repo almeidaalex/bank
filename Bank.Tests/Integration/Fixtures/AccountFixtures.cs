@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
+using Bank.Api;
 using Bank.Domain;
 using Bank.Infra;
 using Microsoft.AspNetCore.Hosting;
@@ -11,10 +13,19 @@ using Xunit;
 
 namespace Bank.Tests.Integration.Fixtures
 {
-    [CollectionDefinition("AccountFixture")]
-    public class AccountFixtures<TStartup> : WebApplicationFactory<TStartup>
+
+   
+
+    [CollectionDefinition(FixtureNames.ACCOUNT_FIXTURE)]
+    public class DefaultDatabaseCollection : ICollectionFixture<AccountFixture<Startup>>        
+    {
+        
+    }
+
+    public class AccountFixture<TStartup> : WebApplicationFactory<TStartup>, IDisposable
         where TStartup : class
     {
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureServices(services => {
@@ -23,23 +34,27 @@ namespace Bank.Tests.Integration.Fixtures
 
                 services.Remove(descriptor);
 
+                var dbName = "bank_db_" + Guid.NewGuid();
                 services.AddDbContext<BankDbContext>(options => {
-                    options.UseInMemoryDatabase("BankDbTest");
+                    options.UseMySQL($"Server=localhost;port=3307;Database={dbName};Uid=root;Pwd=b@nk1;");
                 });
 
                 var sp = services.BuildServiceProvider();
                 using var scope = sp.CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<BankDbContext>();
-                var account = new Account(new Owner(1, "Alex A."), accountNo: 3, initialBalance: 10000);
-                db.Accounts.Add(account);
+                var db = scope.ServiceProvider.GetRequiredService<BankDbContext>();                               
+                db.Database.Migrate();
                 db.SaveChanges();
 
             });
         }
 
-        protected override IHost CreateHost(IHostBuilder builder)
+        internal void RemoveAccounts(int id)
         {
-            return base.CreateHost(builder);
+            var scope = this.Services.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<BankDbContext>();
+            var account = db.Accounts.Find(id);
+            db.Accounts.Remove(account);
+            db.SaveChanges();
         }
 
         protected override void Dispose(bool disposing)

@@ -10,21 +10,19 @@ using System.Threading.Tasks;
 using Bank.Api;
 using Bank.Api.Commands;
 using Bank.Api.DTOs;
-using Bank.Domain;
 using Bank.Tests.Integration.Fixtures;
 using Bank.Tests.Integration.Helpers;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore.Update;
 using Xunit;
 
 namespace Bank.Tests.Integration
 {
-    [Collection("AccountFixture")]
-    public class CalculateIncomeTest : IClassFixture<AccountFixtures<Startup>>
+    [Collection(FixtureNames.ACCOUNT_FIXTURE)]
+    public class CalculateIncomeTest 
     {
         private readonly HttpClient _httpClient;
-        public CalculateIncomeTest(AccountFixtures<Startup> factory)
+        public CalculateIncomeTest(AccountFixture<Startup> factory)
         {
             _httpClient = factory.CreateClient();
         }

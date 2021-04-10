@@ -57,11 +57,7 @@ namespace Bank.Api
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bank.Api v1"));
-            }
-            else
-            {
-                context.Database.Migrate();
-            }
+            }           
 
             app.UseStaticFiles();
 

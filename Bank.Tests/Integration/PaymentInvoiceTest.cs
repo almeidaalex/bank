@@ -17,14 +17,14 @@ using Xunit.Abstractions;
 
 namespace Bank.Tests.Integration
 {
-    [Collection("AccountFixture")]
-    public class PaymentInvoiceTest : IClassFixture<AccountFixtures<Startup>>
+    [Collection(FixtureNames.ACCOUNT_FIXTURE)]
+    public class PaymentInvoiceTest 
     {
 
         private readonly HttpClient _httpClient;
         private readonly ITestOutputHelper _testOutput;
 
-        public PaymentInvoiceTest(AccountFixtures<Startup> factory, ITestOutputHelper testOutput)
+        public PaymentInvoiceTest(AccountFixture<Startup> factory, ITestOutputHelper testOutput)
         {            
             _httpClient = factory.CreateDefaultClient();            
             _testOutput = testOutput;

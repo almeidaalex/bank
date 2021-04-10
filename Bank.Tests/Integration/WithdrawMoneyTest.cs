@@ -14,13 +14,13 @@ using Xunit;
 
 namespace Bank.Tests.Integration
 {
-    [Collection("AccountFixture")]
-    public class WithdrawMoneyTest : IClassFixture<AccountFixtures<Startup>> 
+    [Collection(FixtureNames.ACCOUNT_FIXTURE)]
+    public class WithdrawMoneyTest : IClassFixture<WithdrawFixture>
     {   
         private readonly HttpClient _httpClient;
-        public WithdrawMoneyTest(AccountFixtures<Startup> factory)
+        public WithdrawMoneyTest(AccountFixture<Startup> factory)
         {        
-            _httpClient = factory.CreateDefaultClient();
+            _httpClient = factory.CreateClient();            
         }
 
 

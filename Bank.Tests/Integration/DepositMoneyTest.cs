@@ -12,11 +12,11 @@ using Xunit;
 
 namespace Bank.Tests.Integration
 {
-    [Collection("AccountFixture")]
-    public class DepositMoneyTest : IClassFixture<AccountFixtures<Startup>>
+    [Collection(FixtureNames.ACCOUNT_FIXTURE)]
+    public class DepositMoneyTest
     {
         private readonly HttpClient _httpClient;
-        public DepositMoneyTest(AccountFixtures<Startup> factory)
+        public DepositMoneyTest(AccountFixture<Startup> factory)
         {
             _httpClient = factory.CreateClient();
         }
