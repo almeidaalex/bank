@@ -69,11 +69,10 @@ namespace Bank.Tests.Integration.Fixtures
         {
             var db = GetDbContext();
             db.Database.EnsureDeleted();
-            base.Dispose(disposing);
         }
 
         public void AddMoreAccounts(params Account[] accounts)
-        {   
+        {
             var db = GetDbContext();
             db.Accounts.AddRange(accounts);
             db.SaveChanges();
