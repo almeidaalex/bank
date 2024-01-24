@@ -94,24 +94,13 @@ namespace Bank.Infra
                    .HasForeignKey(a => a.OwnerId)
                    .OnDelete(DeleteBehavior.Cascade);
 
-            
+
         }
 
         private static void CleanEvents(IEnumerable<IEntity> entities)
         {
-            foreach (var entity in entities)            
-                entity.ClearEvents();            
-        }
-
-        private Account[] CreateSeedData()
-        {
-            Owner owner1 = new (1, "Alex A.");
-            Owner owner2 = new (2, "Grace N.");
-            return new[]
-            {
-                new Account(owner1, 1001, 1000),
-                new Account(owner2, 1002, 400)
-            };
+            foreach (var entity in entities)
+                entity.ClearEvents();
         }
     }
 }
