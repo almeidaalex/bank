@@ -19,6 +19,7 @@ using Bank.Api.Handlers;
 using Bank.Domain.Events;
 using MediatR.Pipeline;
 using Bank.Domain.Contracts;
+using System.Reflection;
 
 namespace Bank.Api
 {
@@ -42,7 +43,9 @@ namespace Bank.Api
             });
             services.AddDbContext<BankDbContext>(options => options.UseMySQL(connectionString));
 
-            services.AddMediatR(typeof(Startup));
+            //services.AddMediatR(typeof(Startup));
+            services.AddMediatR(cfg=>cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+
             services.AddSingleton<IPaymentService, PaymentService>();
             services.AddSingleton<IYieldService, YieldService>();
             services.AddScoped(typeof(INotificationHandler<AccountEvent>), typeof(AccountEventsHandler<AccountEvent>));
@@ -57,7 +60,7 @@ namespace Bank.Api
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bank.Api v1"));
-            }           
+            }
 
             app.UseStaticFiles();
 
