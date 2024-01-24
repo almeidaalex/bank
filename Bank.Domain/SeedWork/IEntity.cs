@@ -1,14 +1,15 @@
-﻿using Bank.Domain.SeedWork;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
+using Bank.Domain.SeedWork;
 
 namespace Bank.Domain.SeedWork
 {
-    public interface IEntity
-    {
-        IReadOnlyCollection<IDomainEvent> Events { get; }
+  public interface IEntity
+  {
+    IReadOnlyCollection<IDomainEvent> Events { get; }
 
-        void AddDomainEvent(IDomainEvent domainEvent);
+    void AddDomainEvent(IDomainEvent domainEvent);
 
-        void ClearEvents();
-    }
+    void ClearEvents();
+  }
 }

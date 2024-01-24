@@ -1,9 +1,9 @@
 ﻿namespace Bank.Domain.Contracts
 {
-    public interface IPaybleAccount : IAccount
-    {
-        bool CanCharge(Invoice invoice);
+  public interface IPaybleAccount : IAccount
+  {
+    bool CanCharge(Invoice invoice);
 
-        void ChargePayment(Invoice invoice);
-    }
+    void ChargePayment(Invoice invoice);
+  }
 }

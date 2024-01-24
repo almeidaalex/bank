@@ -2,10 +2,10 @@
 
 namespace Bank.Domain.Contracts
 {
-    public interface IYieldAccount : IAccount
-    {
-        DateTime? LastYieldedDate { get; }
+  public interface IYieldAccount : IAccount
+  {
+    DateTime? LastYieldedDate { get; }
 
-        void SetYield(decimal yield, DateTime currentDate);
-    }
+    void SetYield(decimal yield, DateTime currentDate);
+  }
 }

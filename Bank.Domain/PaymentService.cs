@@ -3,16 +3,16 @@
 
 namespace Bank.Domain
 {
-    public class PaymentService : IPaymentService
+  public class PaymentService : IPaymentService
+  {
+    public Result Pay(IPaybleAccount account, Invoice invoice)
     {
-        public Result Pay(IPaybleAccount account, Invoice invoice)
-        {
-            if (account.CanCharge(invoice))
-            {
-                account.ChargePayment(invoice);
-                return Result.Ok();
-            }
-            return Result.Fail("Não foi possível realizar o pagamento");
-        }
+      if (account.CanCharge(invoice))
+      {
+        account.ChargePayment(invoice);
+        return Result.Ok();
+      }
+      return Result.Fail("Não foi possível realizar o pagamento");
     }
+  }
 }

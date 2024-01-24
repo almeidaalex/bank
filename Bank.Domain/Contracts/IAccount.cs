@@ -1,15 +1,15 @@
 ﻿namespace Bank.Domain.Contracts
 {
-    public interface IAccount
-    {
-        int No { get; }
+  public interface IAccount
+  {
+    int No { get; }
 
-        Owner Owner { get; }
+    Owner Owner { get; }
 
-        Result Withdraw(decimal amount);
+    Result Withdraw(decimal amount);
 
-        decimal Balance { get; }
+    decimal Balance { get; }
 
-        void AddOperation(AccountOperation accountHistory);
-    }
+    void AddOperation(AccountOperation accountHistory);
+  }
 }

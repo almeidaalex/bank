@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Bank.Domain
 {
-    public struct Balance
-    {
-        public decimal Value { get; private set; }
-        public static Balance Zero => new();
-    }
+  public struct Balance
+  {
+    public decimal Value { get; private set; }
+    public static Balance Zero => new();
+  }
 }
