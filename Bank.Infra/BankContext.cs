@@ -43,7 +43,7 @@ namespace Bank.Infra
       base.OnModelCreating(modelBuilder);
     }
 
-    public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
     {
       var entities = this.ChangeTracker.Entries<IEntity>()
           .Select(po => po.Entity)
@@ -55,9 +55,9 @@ namespace Bank.Infra
       CleanEvents(entities);
 
       foreach (var @event in domainEvents)
-        _mediator.Publish(@event, cancellationToken);
+        await _mediator.Publish(@event, cancellationToken);
 
-      return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+      return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 
     private static void ConfigureAccountOperations(ModelBuilder builder)

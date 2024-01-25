@@ -46,13 +46,13 @@ namespace Bank.Api
       });
       services.AddDbContext<BankDbContext>(options => options.UseMySQL(connectionString));
 
-      //services.AddMediatR(typeof(Startup));
-      services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+      services.AddMediatR(typeof(Startup));
+      //services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
       services.AddSingleton<IPaymentService, PaymentService>();
       services.AddSingleton<IYieldService, YieldService>();
-      services.AddScoped(typeof(INotificationHandler<AccountEvent>), typeof(AccountEventsHandler<AccountEvent>));
-      services.AddScoped(typeof(IRequestPostProcessor<,>), typeof(AccountPostHandler<,>));
+      // services.AddScoped(typeof(INotificationHandler<AccountEvent>), typeof(AccountEventsHandler<AccountEvent>));
+      // services.AddScoped(typeof(IRequestPostProcessor<,>), typeof(AccountPostHandler<,>));
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
