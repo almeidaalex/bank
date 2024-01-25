@@ -1,16 +1,13 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Bank.Api/Bank.Api.csproj", "Bank.Api/"]
-COPY ["Bank.Domain/Bank.Domain.csproj", "Bank.Domain/"]
-COPY ["Bank.Infra/Bank.Infra.csproj", "Bank.Infra/"]
-RUN dotnet restore "Bank.Api/Bank.Api.csproj"
 COPY . .
+RUN dotnet restore
 WORKDIR "/src/Bank.Api"
 RUN dotnet build "Bank.Api.csproj" -c Release -o /app/build
 
@@ -20,4 +17,4 @@ RUN dotnet publish "Bank.Api.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Bank.Api.dll"]
+CMD ["dotnet", "Bank.Api.dll"]
