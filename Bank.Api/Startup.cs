@@ -40,10 +40,7 @@ namespace Bank.Api
     {
       var connectionString = Configuration.GetConnectionString("Bank");
       services.AddControllers();
-      services.AddSwaggerGen(c =>
-      {
-        c.SwaggerDoc("v1", new OpenApiInfo { Title = "Bank.Api", Version = "v1" });
-      });
+      services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Bank.Api", Version = "v1" }));
       services.AddDbContext<BankDbContext>(options => options.UseMySQL(connectionString));
 
       services.AddMediatR(typeof(Startup));
@@ -53,6 +50,7 @@ namespace Bank.Api
       services.AddSingleton<IYieldService, YieldService>();
       // services.AddScoped(typeof(INotificationHandler<AccountEvent>), typeof(AccountEventsHandler<AccountEvent>));
       // services.AddScoped(typeof(IRequestPostProcessor<,>), typeof(AccountPostHandler<,>));
+      services.AddHealthChecks();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,12 +69,10 @@ namespace Bank.Api
 
       app.UseAuthorization();
 
-      app.UseEndpoints(endpoints =>
-      {
+      app.UseEndpoints(endpoints => {
         endpoints.MapControllers();
+        endpoints.MapHealthChecks("health");
       });
-
-
     }
   }
 }
