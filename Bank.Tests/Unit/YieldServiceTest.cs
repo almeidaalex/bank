@@ -3,6 +3,8 @@
 using Bank.Domain;
 using Bank.Domain.Contracts;
 
+using FluentAssertions;
+
 using NSubstitute;
 using NSubstitute.ReceivedExtensions;
 
@@ -19,9 +21,9 @@ namespace Bank.Tests.Unit
       account.Balance.Returns(67.95m);
       var currentDate = new DateTime(2020, 07, 29);
       var yieldService = new YieldService();
-      yieldService.CalculateInterestFor(currentDate, account, interestRate: 3.52, days: 1);
+      var yield = yieldService.CalculateInterestFor(currentDate, account, interestRate: 3.52, days: 1);
 
-      account.Received().SetYield(.01m, currentDate);
+      yield.Should().Be(0.01m);
     }
 
     [Theory]
@@ -48,9 +50,9 @@ namespace Bank.Tests.Unit
 
       var currentDate = new DateTime(2020, 07, 29);
       var yieldService = new YieldService();
-      yieldService.CalculateInterestFor(currentDate, account, interestRate: 3.52, days: 1);
+      var yield = yieldService.CalculateInterestFor(currentDate, account, interestRate: 3.52, days: 1);
 
-      account.Received(Quantity.None()).SetYield(Arg.Any<decimal>(), Arg.Any<DateTime>());
+      yield.Should().Be(0);
     }
 
     [Fact]
@@ -62,9 +64,9 @@ namespace Bank.Tests.Unit
 
       var currentDate = new DateTime(2020, 07, 29);
       var yieldService = new YieldService();
-      yieldService.CalculateInterestFor(currentDate, account, interestRate: 3.52, days: 2);
+      var yield = yieldService.CalculateInterestFor(currentDate, account, interestRate: 3.52, days: 2);
 
-      account.Received(Quantity.None()).SetYield(Arg.Any<decimal>(), Arg.Any<DateTime>());
+      yield.Should().Be(0);
     }
   }
 
