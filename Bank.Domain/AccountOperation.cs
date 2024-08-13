@@ -23,6 +23,7 @@ namespace Bank.Domain
     public string Description { get; private set; }
     public decimal Amount { get; private set; }
     public EventType Operation { get; private set; }
-    public int AccountNo { get; private set; }
+    public int AccountNo { get; set; }
+    public Account Account { get; set; }
   }
 }
