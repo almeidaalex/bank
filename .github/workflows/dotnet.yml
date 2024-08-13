@@ -11,9 +11,15 @@ on:
 
 jobs:
   build:
-
+    services:
+      mysql:
+        image: mysql:9.0.1
+        env:
+          MYSQL_ROOT_PASSWORD: b@nk1
+          MYSQL_DATABASE: bank_db
+        ports:
+          - "3307:3306"
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
