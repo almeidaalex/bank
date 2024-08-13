@@ -90,12 +90,13 @@ namespace Bank.Domain
     public void AddOperation(AccountOperation accountOperation) =>
         _operations.Add(accountOperation);
 
-    public IReadOnlyCollection<AccountOperation> Operations => _operations;
+    public IReadOnlyCollection<AccountOperation> Operations => _operations.AsReadOnly();
 
     public DateTime? LastYieldedDate { get; private set; }
 
     public void SetYield(decimal yield, DateTime currentDate)
     {
+      this.AddOperation(new AccountOperation(currentDate, $"Rendimento em {currentDate}", yield, EventType.Income));
       this.Balance += yield;
       this.LastYieldedDate = currentDate;
       this.AddDomainEvent(new CalculatedIncomeEvent(this, yield));
