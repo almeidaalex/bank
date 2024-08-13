@@ -1,8 +1,8 @@
 ## Banco Simples
 
-Esse projeto tem como intenção simular algumas operações bancárias, de maneira simplificada como Depositar, Sacar e Pagar.
+Esse projeto tem como intenção simular algumas operações bancárias, de maneira simplificada com ações como: Depositar, Sacar e Pagar.
 
-Foi construído usando .NET 5 e MySQL. 
+Foi construído usando .NET 8 e MySQL.
 
 Para testar a aplicação basta executar o seguinte comando na pasta raiz:
 
@@ -24,7 +24,7 @@ Também é possível interagir com a aplicação vida API:
 #### Depositar
 
 > POST /api/account/deposit
-> 
+>
  Request body:
  ```json
  {
@@ -43,7 +43,7 @@ $ curl -X POST "http://localhost:8080/api/account/deposit" \
 #### Saque
 
 > POST /api/account/withdraw
- 
+
  Request body:
  ```json
  {
@@ -59,7 +59,7 @@ $ curl -X POST "http://localhost:8080/api/account/withdraw" \
 
 <br />
 
-#### Pagamento: 
+#### Pagamento:
 > POST api/account/payment
 
 Request body:
@@ -107,7 +107,7 @@ $ curl -X GET "http://localhost:8080/api/account/{id}/statement" -H  "accept: te
 ```
 
 #### Conta com Rendimento
-É possível ainda fazer com que a conta tenha rendimentos diários, essa é a api para fazer render a conta 
+É possível ainda fazer com que a conta tenha rendimentos diários, essa é a api para fazer render a conta
 > PUT /api/account/calculateIncome
 
 Request body
