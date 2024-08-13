@@ -22,12 +22,18 @@ namespace Bank.Api.Handlers
       _yieldService = yieldService;
     }
 
-    public async Task<Unit> Handle(CalculateIncomeCommand request, CancellationToken cancellationToken)
+    public Task<Unit> Handle(CalculateIncomeCommand request, CancellationToken cancellationToken)
     {
       var accounts = this._context.Accounts.ToArray();
-      _yieldService.CalculateInterestFor(request.ForDate, accounts, request.InterestRate, cancellationToken, days: 1);
-      await _context.SaveChangesAsync(cancellationToken);
-      return Unit.Value;
+
+      foreach (var account in accounts)
+      {
+        var yield = _yieldService.CalculateInterestFor(request.ForDate, account, request.InterestRate, days: 1);
+        account.SetYield(yield, request.ForDate);
+      }
+
+      _context.SaveChanges();
+      return Unit.Task;
     }
   }
 }
