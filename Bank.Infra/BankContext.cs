@@ -88,7 +88,7 @@ namespace Bank.Infra
       account.Property(a => a.OwnerId);
 
       account.HasMany(a => a.Operations)
-             .WithOne()
+             .WithOne(o => o.Account)
              .HasForeignKey(h => h.AccountNo)
              .OnDelete(DeleteBehavior.Cascade);
 
