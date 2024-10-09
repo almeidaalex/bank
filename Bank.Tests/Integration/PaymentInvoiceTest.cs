@@ -36,12 +36,7 @@ namespace Bank.Tests.Integration
     [Fact]
     public async Task Should_pay_an_invoice_succesfully()
     {
-      var invoice = new InvoiceDto
-      {
-        Number = 345454,
-        DueDate = new DateTime(),
-        Amount = 500
-      };
+      var invoice = new InvoiceDto(Number: 345454, DueDate: new DateTime(), Amount: 500);
 
       var command = new PaymentCommand { AccountNo = 1001, Invoice = invoice };
       var content = new StringContent(command.AsJson(), Encoding.UTF8, "application/json");
@@ -54,12 +49,7 @@ namespace Bank.Tests.Integration
     public async Task Should_and_a_historical_registry_when_a_payment_charged_successfuly()
     {
 
-      var invoice = new InvoiceDto
-      {
-        Number = 345454,
-        DueDate = new DateTime(),
-        Amount = 600
-      };
+      var invoice = new InvoiceDto(Number: 345454, DueDate: new DateTime(), Amount: 600);
 
       var command = new PaymentCommand { AccountNo = 1001, Invoice = invoice };
       var content = new StringContent(command.AsJson(), Encoding.UTF8, "application/json");
@@ -79,11 +69,11 @@ namespace Bank.Tests.Integration
     public async Task Should_return_bad_request_when_try_to_pay_a_negative_amount()
     {
       var invoice = new InvoiceDto
-      {
-        Number = 345454,
-        DueDate = new DateTime(),
-        Amount = -100
-      };
+      (
+        Number: 345454,
+        DueDate: new DateTime(),
+        Amount: -100
+      );
 
       var command = new PaymentCommand { AccountNo = 1001, Invoice = invoice };
       var content = new StringContent(command.AsJson(), Encoding.UTF8, "application/json");
