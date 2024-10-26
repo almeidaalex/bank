@@ -1,0 +1,7 @@
+name: Bank.IaC
+description: Basic IaC for our bank app
+runtime: dotnet
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: azure-csharp
