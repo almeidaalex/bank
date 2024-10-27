@@ -6,7 +6,8 @@ using ContainerRegistryInputs = Pulumi.AzureNative.ContainerRegistry.Inputs;
 using Pulumi.AzureNative.ManagedIdentity;
 using Pulumi.AzureNative.Resources;
 using ManagedServiceIdentityType = Pulumi.AzureNative.App.ManagedServiceIdentityType;
-
+using Pulumi.AzureNative.Authorization;
+using Guid = System.Guid;
 
 
 return await Pulumi.Deployment.RunAsync(() =>
@@ -26,7 +27,7 @@ return await Pulumi.Deployment.RunAsync(() =>
   var appUserIdentity = new UserAssignedIdentity($"uai-{shortRegion}-{appName}", new UserAssignedIdentityArgs
   {
     ResourceGroupName = resourceGroup.Name,
-    Location = region
+    Location = region,
   });
 
   var acr = new Registry($"acr{shortRegion}{appName}", new RegistryArgs
@@ -34,6 +35,14 @@ return await Pulumi.Deployment.RunAsync(() =>
     ResourceGroupName = resourceGroup.Name,
     Location = resourceGroup.Location,
     Sku = new ContainerRegistryInputs.SkuArgs { Name = "Basic" },
+  });
+
+  var acrPullRoleAssignment = new RoleAssignment($"appAcrPullRoleAssginment-{shortRegion}-{appName}", new RoleAssignmentArgs
+  {
+    PrincipalId = appUserIdentity.PrincipalId,
+    RoleDefinitionId = $"/providers/Microsoft.Authorization/roleDefinitions/7f951dda-4ed3-4680-a7ca-43fe172d538d",
+    Scope = acr.Id,
+    PrincipalType = PrincipalType.ServicePrincipal
   });
 
   var containerEnv = new ManagedEnvironment($"cae-{shortRegion}-{appName}", new ManagedEnvironmentArgs
@@ -52,14 +61,14 @@ return await Pulumi.Deployment.RunAsync(() =>
       Registries = [
         new RegistryCredentialsArgs {
           Server = acr.LoginServer,
-          Identity = appUserIdentity.PrincipalId,
+          Identity = appUserIdentity.Id,
         }
       ],
     },
     Identity = new ManagedServiceIdentityArgs
     {
       Type = ManagedServiceIdentityType.UserAssigned,
-      UserAssignedIdentities = { { appUserIdentity.Id } }
+      UserAssignedIdentities = [appUserIdentity.Id]
     },
     Template = new TemplateArgs
     {
@@ -67,7 +76,7 @@ return await Pulumi.Deployment.RunAsync(() =>
          new ContainerArgs
          {
            Name = "bankapp",
-           Image = $"{acr.LoginServer}/bankapp:latest",
+           Image = acr.LoginServer.Apply(o => $"{o}/bankapp:dp1"),
            Probes = {
              new ContainerAppProbeArgs
              {
